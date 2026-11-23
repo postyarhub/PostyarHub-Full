@@ -382,7 +382,7 @@ async function deliverPost(targetId: string): Promise<void> {
       (platform === 'bale' || inlineButtons.length === 0) &&
       typeof provider.sendMediaGroup === 'function'
     ) {
-      // Telegram uses its documented media-album endpoint. Keep long
+      // Use the provider's documented media-album endpoint. Keep long
       // text in a separate text message because album captions are limited to 1024 chars.
       result = await provider.sendMediaGroup(token, {
         chatRef: channel.channelRef,

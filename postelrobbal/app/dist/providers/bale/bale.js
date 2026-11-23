@@ -221,6 +221,7 @@ class BaleAdapter {
             throw (0, types_js_1.makeProviderError)('VALIDATION', 'متن همراه آلبوم حداکثر ۱۰۲۴ نویسه است.');
         }
         const chatId = await resolveChatId(token, input.chatRef);
+        const replyMarkup = this.buttons(input);
         const media = input.media.map((item, index) => ({
             type: 'photo',
             media: `attach://file${index}`,
@@ -253,15 +254,41 @@ class BaleAdapter {
             }
             throw error;
         }
-        const firstMessageId = data.result[0]?.message_id;
-        if (!Number.isInteger(firstMessageId) || (firstMessageId ?? 0) <= 0) {
-            throw (0, types_js_1.makeProviderError)('UNKNOWN', 'پاسخ بله شناسهٔ پیام معتبر برای آلبوم برنگرداند.');
+        const invalidMessage = data.result.find((item) => !Number.isInteger(item?.message_id) || (item.message_id ?? 0) <= 0);
+        if (invalidMessage) {
+            throw (0, types_js_1.makeProviderError)('UNKNOWN', 'پاسخ بله شامل شناسهٔ نامعتبر برای یکی از تصاویر آلبوم بود.');
+        }
+        const firstMessageId = data.result[0].message_id;
+        if (replyMarkup) {
+            try {
+                await this.editMessageReplyMarkup(token, chatId, String(firstMessageId), input.inlineButtons ?? []);
+            }
+            catch (err) {
+                // The album has already been accepted. Never classify a follow-up keyboard
+                // failure as retryable, otherwise the worker could duplicate the album.
+                throw (0, types_js_1.makeProviderError)('UNKNOWN', 'آلبوم ارسال شد، اما افزودن دکمه‌های آن کامل نشد؛ وضعیت کانال را بررسی کنید.', err);
+            }
         }
         return { ok: true, messageId: String(firstMessageId) };
     }
     async editMessageCaption(token, chatRef, messageId, caption) {
         const chatId = await resolveChatId(token, chatRef);
         await call(token, 'editMessageCaption', { chat_id: chatId, message_id: Number(messageId), caption });
+    }
+    async editMessageReplyMarkup(token, chatRef, messageId, inlineButtons) {
+        const chatId = await resolveChatId(token, chatRef);
+        const numericMessageId = Number(messageId);
+        if (!Number.isSafeInteger(numericMessageId) || numericMessageId <= 0) {
+            throw (0, types_js_1.makeProviderError)('VALIDATION', 'شناسهٔ پیام برای افزودن دکمه معتبر نیست.');
+        }
+        const replyMarkup = this.buttons({ inlineButtons });
+        if (!replyMarkup)
+            return;
+        await call(token, 'editMessageReplyMarkup', {
+            chat_id: chatId,
+            message_id: numericMessageId,
+            reply_markup: replyMarkup,
+        });
     }
     async setWebhook(token, url, secret) {
         // Bale supports webhook without secret_token header; the URL path carries

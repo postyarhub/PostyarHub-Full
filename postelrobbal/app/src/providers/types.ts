@@ -69,6 +69,8 @@ export interface ProviderAdapter {
   /** Optional official album endpoint; absent adapters use sequential media sends. */
   sendMediaGroup?(token: string, input: SendMediaGroupInput): Promise<SendResult>;
   editMessageCaption?(token: string, chatRef: string, messageId: string, caption: string): Promise<void>;
+  /** Attach/update an inline keyboard on an existing message (used after Bale album delivery). */
+  editMessageReplyMarkup?(token: string, chatRef: string, messageId: string, inlineButtons: Array<{ label: string; url?: string; callback?: string }>): Promise<void>;
   deleteMessage?(token: string, chatRef: string, messageId: string): Promise<void>;
   setWebhook?(token: string, url: string, secret?: string): Promise<void>;
   deleteWebhook?(token: string): Promise<void>;

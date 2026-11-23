@@ -377,18 +377,18 @@ async function deliverPost(targetId: string): Promise<void> {
     if (mediaPayloads.length === 0) {
       result = await provider.sendText(token, { chatRef: channel.channelRef, text, parseMode, inlineButtons });
     } else if (
-      platform !== 'bale' &&
       mediaPayloads.length >= 2 &&
       mediaPayloads.every((item) => item.kind === 'photo') &&
-      inlineButtons.length === 0 &&
+      (platform === 'bale' || inlineButtons.length === 0) &&
       typeof provider.sendMediaGroup === 'function'
     ) {
-      // Telegram uses its documented media-album endpoint. Keep long
+      // Use the provider's documented media-album endpoint. Keep long
       // text in a separate text message because album captions are limited to 1024 chars.
       result = await provider.sendMediaGroup(token, {
         chatRef: channel.channelRef,
         text: text.length <= 1024 ? text : '',
         parseMode,
+        inlineButtons: platform === 'bale' && text.length <= 1024 ? inlineButtons : [],
         media: mediaPayloads.map((item) => ({
           buffer: item.buffer,
           filename: item.filename,
@@ -397,7 +397,7 @@ async function deliverPost(targetId: string): Promise<void> {
       });
       if (text.length > 1024) {
         try {
-          await provider.sendText(token, { chatRef: channel.channelRef, text, parseMode, inlineButtons: [] });
+          await provider.sendText(token, { chatRef: channel.channelRef, text, parseMode, inlineButtons: platform === 'bale' ? inlineButtons : [] });
         } catch (err) {
           // Do not auto-retry and duplicate an album already accepted by the provider.
           throw makeProviderError('UNKNOWN', 'تصاویر ارسال شدند، اما ارسال متن بلند کامل نشد؛ وضعیت کانال را بررسی کنید.', err);
@@ -416,9 +416,8 @@ async function deliverPost(targetId: string): Promise<void> {
         kind: item.kind,
       });
     } else {
-      // Send each image through the provider's single-file method, attaching
-      // the caption/buttons only to the first image. Bale bypasses sendMediaGroup
-      // above so every photo remains a standalone message in the Bale client.
+      // Sequential media fallback is reserved for providers without an album
+      // endpoint; Bale photo albums use sendMediaGroup above.
       let firstResult: Awaited<ReturnType<typeof provider.sendMedia>> | null = null;
       for (let index = 0; index < mediaPayloads.length; index += 1) {
         const item = mediaPayloads[index]!;

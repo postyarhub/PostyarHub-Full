@@ -111,6 +111,36 @@ describe('Bale request encoding and inline keyboard payload', () => {
     ]);
   });
 
+  it('attaches inline buttons to the first message after sending a Bale album', async () => {
+    httpMultipartJsonMock.mockResolvedValue({
+      status: 200,
+      data: { ok: true, result: [{ message_id: 456 }, { message_id: 457 }] },
+    });
+    httpJsonMock.mockResolvedValue({ status: 200, data: { ok: true, result: true } });
+    const adapter = new BaleAdapter();
+    const result = await adapter.sendMediaGroup('TOKEN', {
+      chatRef: '-100123',
+      text: 'آلبوم تصاویر',
+      inlineButtons: [{ label: 'مشاهده سایت', url: 'https://example.com' }],
+      media: [
+        { buffer: Buffer.from('photo-one'), filename: 'one.jpg', mime: 'image/jpeg' },
+        { buffer: Buffer.from('photo-two'), filename: 'two.jpg', mime: 'image/jpeg' },
+      ],
+    });
+
+    expect(result.messageId).toBe('456');
+    expect(httpMultipartJsonMock).toHaveBeenCalledTimes(1);
+    expect(httpJsonMock).toHaveBeenCalledTimes(1);
+    const [url, options] = httpJsonMock.mock.calls[0] as [string, { body: string }];
+    expect(url).toContain('/editMessageReplyMarkup');
+    const payload = new URLSearchParams(options.body);
+    expect(payload.get('chat_id')).toBe('-100123');
+    expect(payload.get('message_id')).toBe('456');
+    expect(JSON.parse(payload.get('reply_markup') ?? '')).toEqual({
+      inline_keyboard: [[{ text: 'مشاهده سایت', url: 'https://example.com' }]],
+    });
+  });
+
   it('rejects album sizes outside the documented 2–10 photo range before any request', async () => {
     const adapter = new BaleAdapter();
     await expect(adapter.sendMediaGroup('TOKEN', {

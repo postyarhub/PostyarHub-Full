@@ -253,11 +253,36 @@ class BaleAdapter {
             }
             throw error;
         }
-        const firstMessageId = data.result[0]?.message_id;
-        if (!Number.isInteger(firstMessageId) || (firstMessageId ?? 0) <= 0) {
-            throw (0, types_js_1.makeProviderError)('UNKNOWN', 'پاسخ بله شناسهٔ پیام معتبر برای آلبوم برنگرداند.');
+        const invalidMessage = data.result.find((item) => !Number.isInteger(item?.message_id) || (item.message_id ?? 0) <= 0);
+        if (invalidMessage) {
+            throw (0, types_js_1.makeProviderError)('UNKNOWN', 'پاسخ پلتفرم شامل شناسهٔ نامعتبر برای یکی از تصاویر آلبوم بود.');
+        }
+        const firstMessageId = data.result[0].message_id;
+        if (input.inlineButtons?.length) {
+            try {
+                await this.editMessageReplyMarkup(token, input.chatRef, String(firstMessageId), input.inlineButtons);
+            }
+            catch (err) {
+                // The album is already accepted. Do not retry and duplicate it if
+                // the follow-up keyboard update fails.
+                throw (0, types_js_1.makeProviderError)('UNKNOWN', 'آلبوم ارسال شد، اما افزودن دکمه‌های آن کامل نشد؛ وضعیت کانال را بررسی کنید.', err);
+            }
         }
         return { ok: true, messageId: String(firstMessageId) };
+    }
+    async editMessageReplyMarkup(token, chatRef, messageId, inlineButtons) {
+        const replyMarkup = this.buttons({ inlineButtons });
+        if (!replyMarkup)
+            return;
+        const numericMessageId = Number(messageId);
+        if (!Number.isSafeInteger(numericMessageId) || numericMessageId <= 0) {
+            throw (0, types_js_1.makeProviderError)('VALIDATION', 'شناسهٔ پیام برای ویرایش دکمه‌ها معتبر نیست.');
+        }
+        await call(token, 'editMessageReplyMarkup', {
+            chat_id: await resolveChatId(token, chatRef),
+            message_id: numericMessageId,
+            reply_markup: replyMarkup,
+        });
     }
     async editMessageCaption(token, chatRef, messageId, caption) {
         const chatId = await resolveChatId(token, chatRef);

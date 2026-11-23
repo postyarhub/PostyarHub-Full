@@ -377,18 +377,18 @@ async function deliverPost(targetId: string): Promise<void> {
     if (mediaPayloads.length === 0) {
       result = await provider.sendText(token, { chatRef: channel.channelRef, text, parseMode, inlineButtons });
     } else if (
-      platform !== 'bale' &&
       mediaPayloads.length >= 2 &&
       mediaPayloads.every((item) => item.kind === 'photo') &&
-      inlineButtons.length === 0 &&
       typeof provider.sendMediaGroup === 'function'
     ) {
-      // Telegram uses its documented media-album endpoint. Keep long
+      // Telegram and Bale expose the Bot API media-group endpoint. Provider
+      // adapters attach configured inline buttons to the album's first message.
       // text in a separate text message because album captions are limited to 1024 chars.
       result = await provider.sendMediaGroup(token, {
         chatRef: channel.channelRef,
         text: text.length <= 1024 ? text : '',
         parseMode,
+        inlineButtons,
         media: mediaPayloads.map((item) => ({
           buffer: item.buffer,
           filename: item.filename,

@@ -1,0 +1,8 @@
+[ OK ] 
+[ OK ] 
+
+MAIN_JS=index-CtKkIp7z.js
+MAIN_CSS=index-Dky4nzfs.css
+VENDOR_JS=vendor-DdFOoNPQ.js
+FRONTEND-VERIFY: PASS
+Report: /home/postyarh/postelrobbal/reports/postyar-frontend-batch7-verify-20261006-170304.txt

@@ -1,0 +1,6 @@
+{"timestamp":"2026-10-10T11:39:52.419Z","provider":"winapay","event":"transport_failure","operation":"PaymentRequest","errorName":"SocketError","errorCode":"UND_ERR_SOCKET","errorMessage":"other side closed"}
+{"timestamp":"2026-10-10T11:40:02.385Z","provider":"winapay","event":"transport_failure","operation":"PaymentRequest","errorName":"SocketError","errorCode":"UND_ERR_SOCKET","errorMessage":"other side closed"}
+{"timestamp":"2026-10-10T11:40:12.393Z","provider":"winapay","event":"transport_failure","operation":"PaymentRequest","errorName":"SocketError","errorCode":"UND_ERR_SOCKET","errorMessage":"other side closed"}
+{"timestamp":"2026-10-10T13:03:13.351Z","provider":"winapay","event":"transport_failure","operation":"PaymentRequest","errorName":"SocketError","errorCode":"UND_ERR_SOCKET","errorMessage":"other side closed"}
+{"timestamp":"2026-10-10T13:03:23.318Z","provider":"winapay","event":"transport_failure","operation":"PaymentRequest","errorName":"SocketError","errorCode":"UND_ERR_SOCKET","errorMessage":"other side closed"}
+{"timestamp":"2026-10-10T13:03:33.276Z","provider":"winapay","event":"transport_failure","operation":"PaymentRequest","errorName":"SocketError","errorCode":"UND_ERR_SOCKET","errorMessage":"other side closed"}

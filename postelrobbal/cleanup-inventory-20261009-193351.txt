@@ -1,0 +1,207 @@
+===== POSTYAR HOST CLEANUP INVENTORY =====
+Fri Oct  9 19:33:51 +0330 2026
+
+===== DISK USAGE: PROJECT ROOTS =====
+372M	/home/postyarh/postelrobbal
+5.7M	/home/postyarh/public_html
+
+===== TOP-LEVEL DIRECTORY SIZES =====
+0	/home/postyarh/postelrobbal/backups
+0	/home/postyarh/postelrobbal/public_html
+0	/home/postyarh/postelrobbal/storage
+4.0K	/home/postyarh/postelrobbal/run
+8.0K	/home/postyarh/postelrobbal/scheduler
+12K	/home/postyarh/postelrobbal/workers
+16K	/home/postyarh/postelrobbal/config
+40K	/home/postyarh/postelrobbal/integrations
+76K	/home/postyarh/postelrobbal/postman
+76K	/home/postyarh/postelrobbal/scripts
+112K	/home/postyarh/postelrobbal/docs
+156K	/home/postyarh/postelrobbal/reports
+208K	/home/postyarh/postelrobbal/database
+380K	/home/postyarh/postelrobbal/wordpress-plugin
+772K	/home/postyarh/postelrobbal/private
+2.5M	/home/postyarh/postelrobbal/app
+5.9M	/home/postyarh/postelrobbal/logs
+12M	/home/postyarh/postelrobbal/frontend
+106M	/home/postyarh/postelrobbal/api
+245M	/home/postyarh/postelrobbal/releases
+372M	/home/postyarh/postelrobbal
+
+===== LARGE FILES: PROJECT AND PUBLIC ROOT =====
+
+===== ARCHIVES AND RELEASE PACKAGES =====
+2026-10-09 17:05 | 349 bytes | /home/postyarh/postelrobbal/api/node_modules/thread-stream/test/dir with spaces/test-package.zip
+2026-10-09 17:05 | 397 bytes | /home/postyarh/postelrobbal/api/node_modules/thread-stream/test/ts-commonjs-default-export.zip
+2026-10-01 22:21 | 12620 bytes | /home/postyarh/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-01 22:21 | 12970 bytes | /home/postyarh/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-01 22:21 | 59498 bytes | /home/postyarh/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-01 22:21 | 59961 bytes | /home/postyarh/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-01 22:21 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch20-analytics-rubika-final/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-01 22:21 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch20-analytics-rubika-final/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-01 22:21 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch20-analytics-rubika-final/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-01 22:21 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch20-analytics-rubika-final/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-01 22:21 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch21-emoji-sticker-content-coverage/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-01 22:21 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch21-emoji-sticker-content-coverage/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-01 22:21 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch21-emoji-sticker-content-coverage/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-01 22:21 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch21-emoji-sticker-content-coverage/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-01 18:51 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch22-analytics-persian-labels/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-01 18:51 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch22-analytics-persian-labels/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-01 18:51 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch22-analytics-persian-labels/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-01 18:51 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch22-analytics-persian-labels/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-09 12:10 | 5832138 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch23-emoji-sticker-wordpress-fix-20261009.zip
+2026-10-09 13:38 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch24-internal-error-tracing/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-09 13:38 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch24-internal-error-tracing/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-09 13:38 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch24-internal-error-tracing/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-09 13:38 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch24-internal-error-tracing/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-09 14:14 | 5835730 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch25-wordpress-charset-20261009.zip
+2026-10-09 13:38 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch25-wordpress-charset/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-09 13:38 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch25-wordpress-charset/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-09 13:38 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch25-wordpress-charset/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-09 13:38 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch25-wordpress-charset/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-09 13:38 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch26-channel-button-library-vertical-layout/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-09 13:38 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch26-channel-button-library-vertical-layout/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-09 13:38 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch26-channel-button-library-vertical-layout/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-09 13:38 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch26-channel-button-library-vertical-layout/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-09 17:04 | 5846523 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch27-channel-button-compact-layout-20261009.zip
+2026-10-08 08:14 | 9663344 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch19-clean-reconstruction-20261008.zip
+2026-10-08 12:53 | 41585 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008.zip
+2026-10-08 13:03 | 11572 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008-V2.zip
+2026-10-08 13:23 | 12143 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008-V3.zip
+2026-10-08 14:35 | 11792 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-RUBIKA-FINAL-20261008.zip
+2026-10-01 22:21 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch19-clean-reconstruction/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-01 22:21 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch19-clean-reconstruction/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-01 22:21 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch19-clean-reconstruction/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-01 22:21 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch19-clean-reconstruction/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-08 15:02 | 5899532 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch20-analytics-rubika-final-20261008.zip
+2026-10-08 17:08 | 5901736 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch21-emoji-sticker-content-coverage-20261008.zip
+2026-10-09 11:05 | 5838628 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch22-analytics-persian-labels-20261009.zip
+2026-10-01 22:21 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch23-emoji-sticker-wordpress-fix/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-01 22:21 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch23-emoji-sticker-wordpress-fix/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-01 22:21 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch23-emoji-sticker-wordpress-fix/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-01 22:21 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch23-emoji-sticker-wordpress-fix/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+2026-10-09 13:46 | 5834690 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch24-internal-error-tracing-20261009.zip
+2026-10-09 16:00 | 5845230 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch26-channel-button-library-vertical-layout-20261009.zip
+2026-10-09 13:38 | 12620 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch27-channel-button-compact-layout/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.2.zip
+2026-10-09 13:38 | 59498 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch27-channel-button-compact-layout/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.7.0.zip
+2026-10-09 13:38 | 59961 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch27-channel-button-compact-layout/postelrobbal/wordpress-plugin/releases/postyar-wordpress-plugin-v1.8.0.zip
+2026-10-09 13:38 | 12970 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch27-channel-button-compact-layout/postelrobbal/wordpress-plugin/postyar-wordpress-plugin-v1.3.zip
+
+===== BUILD AND CACHE DIRECTORY CANDIDATES =====
+/home/postyarh/postelrobbal/api/tmp
+/home/postyarh/postelrobbal/app/tmp
+
+===== RELEASE DIRECTORY INVENTORY =====
+d | 2026-10-09 17:04 | 4096 bytes | /home/postyarh/postelrobbal/releases/20261008
+f | 2026-10-08 15:43 | 17691 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-R5-20261008.sh
+d | 2026-10-08 15:55 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch20-analytics-rubika-final
+f | 2026-10-08 17:04 | 19941 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH21-EMOJI-STICKER-CONTENT-COVERAGE-20261008.sh
+d | 2026-10-08 17:26 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch21-emoji-sticker-content-coverage
+f | 2026-10-09 11:04 | 20488 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH22-ANALYTICS-PERSIAN-LABELS-20261009.sh
+d | 2026-10-09 11:16 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch22-analytics-persian-labels
+f | 2026-10-09 12:10 | 5832138 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch23-emoji-sticker-wordpress-fix-20261009.zip
+f | 2026-10-09 13:45 | 22677 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH24-INTERNAL-ERROR-TRACE-20261009.sh
+d | 2026-10-09 13:47 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch24-internal-error-tracing
+f | 2026-10-09 14:14 | 5835730 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch25-wordpress-charset-20261009.zip
+d | 2026-10-09 14:15 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch25-wordpress-charset
+f | 2026-10-09 16:02 | 27959 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-b26-deploy.sh
+d | 2026-10-09 16:04 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch26-channel-button-library-vertical-layout
+f | 2026-10-09 17:04 | 5846523 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch27-channel-button-compact-layout-20261009.zip
+f | 2026-10-08 08:14 | 9663344 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch19-clean-reconstruction-20261008.zip
+f | 2026-10-08 08:59 | 127 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH19-CLEAN-RECONSTRUCTION-20261008.sh.sha256
+f | 2026-10-08 08:59 | 13092 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH19-CLEAN-RECONSTRUCTION-20261008.sh
+f | 2026-10-08 12:53 | 41585 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008.zip
+f | 2026-10-08 13:03 | 9523 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008-V2.sh
+f | 2026-10-08 13:03 | 11572 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008-V2.zip
+f | 2026-10-08 13:23 | 12143 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008-V3.zip
+f | 2026-10-08 13:22 | 9953 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-ANALYTICS-WOO-CAMPAIGN-HOTFIX-20261008.sh
+d | 2026-10-08 13:10 | 4096 bytes | /home/postyarh/postelrobbal/releases/20261008/kit
+f | 2026-10-08 14:35 | 26523 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-ANALYTICS-RUBIKA-FINAL-20261008.sh
+f | 2026-10-08 14:35 | 11792 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-ANALYTICS-RUBIKA-FINAL-20261008.zip
+d | 2026-10-08 14:38 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch19-clean-reconstruction
+f | 2026-10-08 15:01 | 14249 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-20261008.sh
+f | 2026-10-08 15:02 | 5899532 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch20-analytics-rubika-final-20261008.zip
+f | 2026-10-08 15:07 | 14378 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-R1-20261008.sh
+f | 2026-10-08 15:11 | 14419 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-R2-20261008.sh
+f | 2026-10-08 15:34 | 16525 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-R3-20261008.sh
+f | 2026-10-08 15:39 | 17685 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-R4-20261008.sh
+f | 2026-10-08 15:48 | 18002 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-R6-20261008.sh
+f | 2026-10-08 15:55 | 18875 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH20-ANALYTICS-RUBIKA-FINAL-R7-20261008.sh
+f | 2026-10-08 17:08 | 5901736 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch21-emoji-sticker-content-coverage-20261008.zip
+f | 2026-10-09 11:05 | 5838628 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch22-analytics-persian-labels-20261009.zip
+f | 2026-10-09 12:09 | 21773 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH23-EMOJI-STICKER-WORDPRESS-FIX-20261009.sh
+d | 2026-10-09 12:10 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch23-emoji-sticker-wordpress-fix
+f | 2026-10-09 13:46 | 5834690 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch24-internal-error-tracing-20261009.zip
+f | 2026-10-09 14:14 | 23395 bytes | /home/postyarh/postelrobbal/releases/20261008/POSTYAR-HOST-DEPLOY-BATCH25-WORDPRESS-CHARSET-20261009.sh
+f | 2026-10-09 16:00 | 5845230 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-batch26-channel-button-library-vertical-layout-20261009.zip
+f | 2026-10-09 17:03 | 28479 bytes | /home/postyarh/postelrobbal/releases/20261008/postyar-b27-deploy.sh
+d | 2026-10-09 17:04 | 45 bytes | /home/postyarh/postelrobbal/releases/20261008/release-batch27-channel-button-compact-layout
+
+===== PUBLIC ASSET INVENTORY =====
+2026-10-09 17:05 | 3760 bytes | ux-v11.css
+2026-10-09 17:05 | 12966 bytes | logo-mark-BzAb-oJe.webp
+2026-10-09 17:05 | 7050 bytes | bale-C3CZgpfH.png
+2026-10-09 17:05 | 18250 bytes | telegram-DLjpbRHm.png
+2026-10-09 17:05 | 37306 bytes | logo-full-F3iLWmq6.webp
+2026-10-09 17:05 | 97116 bytes | rubika-lockup-CnoKc83X.png
+2026-10-09 17:05 | 21362 bytes | rubika-CemxzSVD.png
+2026-10-09 17:05 | 113027 bytes | index--dt-CNg7.css
+2026-10-09 17:05 | 48331 bytes | bale-lockup-Ch53clZm.png
+2026-10-09 17:05 | 7835 bytes | Help-C6uDxzLO.css
+2026-10-09 17:05 | 25197 bytes | AdminLayout-2y8FUj2H.css
+2026-10-09 17:05 | 192053 bytes | vendor-DdFOoNPQ.js
+2026-10-09 17:05 | 102748 bytes | index-KWKiY64l.js
+2026-10-09 17:05 | 23923 bytes | Landing-COw-FAv5.js
+2026-10-09 17:05 | 4472 bytes | Terms-BOIlNbnT.css
+2026-10-09 17:05 | 22924 bytes | Terms-C07IcUjw.js
+2026-10-09 17:05 | 94031 bytes | Help-BLvs9I4d.js
+2026-10-09 17:05 | 10155 bytes | Dashboard--3B7G_hm.js
+2026-10-09 17:05 | 15619 bytes | Channels-Caeko04Z.js
+2026-10-09 17:05 | 4119 bytes | Posts-T3_lWEAE.js
+2026-10-09 17:05 | 6832 bytes | Bots-DS8BNUrX.js
+2026-10-09 17:05 | 112274 bytes | PostNew-DH77Da4Z.js
+2026-10-09 17:05 | 8398 bytes | PostDetail-BlTXmlaJ.js
+2026-10-09 17:05 | 3971 bytes | Workflows-BcEBlP0m.js
+2026-10-09 17:05 | 25265 bytes | BotDetail-BeUk1q5k.js
+2026-10-09 17:05 | 11810 bytes | WorkflowBuilder--xuP_A3U.js
+2026-10-09 17:05 | 5559 bytes | Ai-CbYYMyGI.js
+2026-10-09 17:05 | 24127 bytes | WooCommerce-BnrGC-5i.js
+2026-10-09 17:05 | 7254 bytes | Gold-BuB1q3kf.js
+2026-10-09 17:05 | 11659 bytes | Wallet-CL5aRAvK.js
+2026-10-09 17:05 | 20628 bytes | Analytics-CVSC7g9H.js
+2026-10-09 17:05 | 17500 bytes | Subscription-DwlwwkDH.js
+2026-10-09 17:05 | 3248 bytes | Notifications-9IFHJzie.js
+2026-10-09 17:05 | 5500 bytes | Referrals-Db-87ZFz.js
+2026-10-09 17:05 | 8705 bytes | Settings-Dknt_QPD.js
+2026-10-09 17:05 | 8086 bytes | AdminLayout-0wND8kou.js
+2026-10-09 17:05 | 12513 bytes | Support-D2QW0pEl.js
+2026-10-09 17:05 | 11421 bytes | AdminHome-g_qJiCJI.js
+2026-10-09 17:05 | 13222 bytes | AdminPlans-qAGXn93D.js
+2026-10-09 17:05 | 15144 bytes | AdminUsers-DqxFcuUc.js
+2026-10-09 17:05 | 6488 bytes | AdminSms-QtDyMbr0.js
+2026-10-09 17:05 | 10426 bytes | AdminPayments-9AoSnFVD.js
+2026-10-09 17:05 | 8698 bytes | AdminGateways-D3w2fthi.js
+2026-10-09 17:05 | 5777 bytes | AdminEmail-Blq-ts3v.js
+2026-10-09 17:05 | 67696 bytes | ContentComposerTextarea-CJ5tg2n_.js
+2026-10-09 17:05 | 3738 bytes | shared-Cf5C0KHh.js
+2026-10-09 17:05 | 8293 bytes | AdminBroadcast-BenvwDM5.js
+2026-10-09 17:05 | 5487 bytes | AdminChannels-DNx9Y4B_.js
+2026-10-09 17:05 | 3773 bytes | AdminBots-CyjrlDOk.js
+2026-10-09 17:05 | 6060 bytes | AdminSupportTeam-DEM0M2yD.js
+2026-10-09 17:05 | 17868 bytes | AdminTickets-CKXZd2J6.js
+2026-10-09 17:05 | 5076 bytes | AdminLogs-7WqbzLI_.js
+2026-10-09 17:05 | 6291 bytes | AdminSettingsGeneral-D2IkewES.js
+2026-10-09 17:05 | 4755 bytes | AdminSettings-DlthcHOF.js
+2026-10-09 17:05 | 7918 bytes | AdminSettingsAi-Ckw6FF8u.js
+2026-10-09 17:05 | 4674 bytes | AdminSettingsGold-DoJeHurq.js
+2026-10-09 17:05 | 4725 bytes | AdminSettingsReferral-Cc6CaCwL.js
+2026-10-09 17:05 | 3291 bytes | AdminSettingsSecurity-C8Hp0aKw.js
+2026-10-09 17:05 | 939 bytes | PaymentResult-C9MXuaiX.js
+
+===== PROTECTED FILE PRESENCE (NO CONTENT READ) =====
+-rw------- 1 postyarh postyarh 1133 Sep 20 01:31 /home/postyarh/postelrobbal/config/.env
+-rw-r--r-- 1 postyarh postyarh 3493 Oct  9 17:05 /home/postyarh/public_html/index.html
+-rw-r--r-- 1 postyarh postyarh 1921 Oct  9 17:05 /home/postyarh/public_html/.htaccess
+-rwxr-xr-x 1 postyarh postyarh 1843 Oct  9 17:05 /home/postyarh/postelrobbal/workers/restart-worker.sh
+
+===== END OF INVENTORY; NO FILES DELETED =====

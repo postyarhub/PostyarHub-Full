@@ -1,0 +1,807 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tickets = exports.auditLogs = exports.mediaAccessTokens = exports.analyticsLinkClicks = exports.analyticsLinks = exports.analyticsEvents = exports.eventDaily = exports.events = exports.notificationOutbound = exports.notifications = exports.referralRewards = exports.referrals = exports.pointLedger = exports.walletLedger = exports.walletAccounts = exports.payments = exports.goldSnapshots = exports.goldConfigs = exports.telegramStickers = exports.telegramStickerSets = exports.wordpressCampaigns = exports.messageTemplates = exports.wordpressContents = exports.wordpressProducts = exports.wordpressSites = exports.aiUsageMonthly = exports.aiJobs = exports.idempotencyKeys = exports.outboxEvents = exports.postTargets = exports.channelSavedFooters = exports.channelSavedButtons = exports.posts = exports.media = exports.botEvents = exports.workflowRuns = exports.workflows = exports.botKeywords = exports.botCommands = exports.botMessages = exports.botConversations = exports.botUsers = exports.bots = exports.channels = exports.channelRegistry = exports.subscriptions = exports.plans = exports.passwordResetTokens = exports.sessions = exports.users = void 0;
+exports.userFeedback = exports.surveyEvents = exports.surveyVotes = exports.surveyOptions = exports.surveys = exports.linkClicks = exports.systemSettings = exports.ticketMessageAttachments = exports.ticketMessages = void 0;
+/**
+ * Drizzle schema — canonical ORM representation of the current migration set.
+ * MySQL/MariaDB, money = BIGINT Rial, ids = CHAR(26) ULID.
+ */
+const mysql_core_1 = require("drizzle-orm/mysql-core");
+const drizzle_orm_1 = require("drizzle-orm");
+const ts = () => (0, mysql_core_1.datetime)('created_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`);
+exports.users = (0, mysql_core_1.mysqlTable)('users', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    firstName: (0, mysql_core_1.varchar)('first_name', { length: 80 }).notNull(),
+    lastName: (0, mysql_core_1.varchar)('last_name', { length: 80 }).notNull(),
+    mobile: (0, mysql_core_1.varchar)('mobile', { length: 20 }).notNull(),
+    email: (0, mysql_core_1.varchar)('email', { length: 190 }).notNull(),
+    businessName: (0, mysql_core_1.varchar)('business_name', { length: 160 }).notNull(),
+    businessType: (0, mysql_core_1.varchar)('business_type', { length: 80 }).notNull(),
+    passwordHash: (0, mysql_core_1.varchar)('password_hash', { length: 255 }).notNull(),
+    referralCode: (0, mysql_core_1.char)('referral_code', { length: 12 }),
+    role: (0, mysql_core_1.mysqlEnum)('role', ['SUPER_ADMIN', 'SUPPORT', 'USER']).notNull().default('USER'),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['ACTIVE', 'SUSPENDED']).notNull().default('ACTIVE'),
+    timezone: (0, mysql_core_1.varchar)('timezone', { length: 64 }).notNull().default('Asia/Tehran'),
+    // Round 17 avatars: 'character' → avatar_value holds an AVATAR_CHARACTERS key
+    // (frontend SVG); 'photo' → avatar_media_id → media row (512×512 WebP).
+    avatarKind: (0, mysql_core_1.mysqlEnum)('avatar_kind', ['character', 'photo']).notNull().default('character'),
+    avatarValue: (0, mysql_core_1.varchar)('avatar_value', { length: 32 }).notNull().default(''),
+    avatarMediaId: (0, mysql_core_1.char)('avatar_media_id', { length: 26 }),
+    lastLoginAt: (0, mysql_core_1.datetime)('last_login_at'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.unique)('uq_users_email').on(t.email), (0, mysql_core_1.unique)('uq_users_mobile').on(t.mobile)]);
+exports.sessions = (0, mysql_core_1.mysqlTable)('sessions', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    userId: (0, mysql_core_1.char)('user_id', { length: 26 }).notNull(),
+    tokenHash: (0, mysql_core_1.char)('token_hash', { length: 64 }).notNull(),
+    csrfSecret: (0, mysql_core_1.char)('csrf_secret', { length: 64 }).notNull(),
+    userAgent: (0, mysql_core_1.varchar)('user_agent', { length: 255 }),
+    ip: (0, mysql_core_1.varchar)('ip', { length: 64 }),
+    expiresAt: (0, mysql_core_1.datetime)('expires_at').notNull(),
+    revokedAt: (0, mysql_core_1.datetime)('revoked_at'),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_sessions_token').on(t.tokenHash), (0, mysql_core_1.index)('idx_sessions_user').on(t.userId)]);
+exports.passwordResetTokens = (0, mysql_core_1.mysqlTable)('password_reset_tokens', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    userId: (0, mysql_core_1.char)('user_id', { length: 26 }).notNull(),
+    tokenHash: (0, mysql_core_1.char)('token_hash', { length: 64 }).notNull(),
+    expiresAt: (0, mysql_core_1.datetime)('expires_at').notNull(),
+    usedAt: (0, mysql_core_1.datetime)('used_at'),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_prt_token').on(t.tokenHash)]);
+exports.plans = (0, mysql_core_1.mysqlTable)('plans', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    code: (0, mysql_core_1.varchar)('code', { length: 40 }).notNull(),
+    nameFa: (0, mysql_core_1.varchar)('name_fa', { length: 80 }).notNull(),
+    priceRial: (0, mysql_core_1.bigint)('price_rial', { mode: 'number' }).notNull().default(0),
+    periodDays: (0, mysql_core_1.int)('period_days').notNull().default(30),
+    limitsJson: (0, mysql_core_1.json)('limits_json').$type().notNull(),
+    featuresJson: (0, mysql_core_1.json)('features_json').$type().notNull(),
+    // Round 19: discount model — { renewalDiscountPercent, durationDiscounts }.
+    pricingJson: (0, mysql_core_1.json)('pricing_json').$type().notNull(),
+    sortOrder: (0, mysql_core_1.int)('sort_order').notNull().default(0),
+    isActive: (0, mysql_core_1.tinyint)('is_active').notNull().default(1),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_plans_code').on(t.code)]);
+exports.subscriptions = (0, mysql_core_1.mysqlTable)('subscriptions', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    planId: (0, mysql_core_1.char)('plan_id', { length: 26 }).notNull(),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['ACTIVE', 'EXPIRED', 'CANCELLED']).notNull().default('ACTIVE'),
+    startedAt: (0, mysql_core_1.datetime)('started_at').notNull(),
+    expiresAt: (0, mysql_core_1.datetime)('expires_at').notNull(),
+    cancelledAt: (0, mysql_core_1.datetime)('cancelled_at'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_subs_tenant_state').on(t.tenantId, t.state),
+    (0, mysql_core_1.index)('idx_subs_expiry').on(t.state, t.expiresAt),
+]);
+exports.channelRegistry = (0, mysql_core_1.mysqlTable)('channel_registry', {
+    platform: (0, mysql_core_1.mysqlEnum)('platform', ['telegram', 'bale', 'rubika']).notNull(),
+    channelRef: (0, mysql_core_1.varchar)('channel_ref', { length: 190 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }),
+    claimedAt: (0, mysql_core_1.datetime)('claimed_at'),
+    releasedAt: (0, mysql_core_1.datetime)('released_at'),
+}, (t) => [(0, mysql_core_1.primaryKey)({ columns: [t.platform, t.channelRef] })]);
+exports.channels = (0, mysql_core_1.mysqlTable)('channels', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    platform: (0, mysql_core_1.mysqlEnum)('platform', ['telegram', 'bale', 'rubika']).notNull(),
+    channelRef: (0, mysql_core_1.varchar)('channel_ref', { length: 190 }).notNull(),
+    title: (0, mysql_core_1.varchar)('title', { length: 190 }).notNull(),
+    type: (0, mysql_core_1.varchar)('type', { length: 40 }).notNull().default('channel'),
+    mode: (0, mysql_core_1.mysqlEnum)('mode', ['bot_admin', 'bot_post']).notNull().default('bot_post'),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['PENDING_VERIFY', 'ACTIVE', 'DISABLED', 'ERROR']).notNull().default('PENDING_VERIFY'),
+    healthJson: (0, mysql_core_1.json)('health_json').$type(),
+    lastVerifiedAt: (0, mysql_core_1.datetime)('last_verified_at'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_channels_tenant_ref').on(t.tenantId, t.platform, t.channelRef),
+    (0, mysql_core_1.index)('idx_channels_tenant').on(t.tenantId),
+]);
+exports.bots = (0, mysql_core_1.mysqlTable)('bots', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    platform: (0, mysql_core_1.mysqlEnum)('platform', ['telegram', 'bale', 'rubika']).notNull(),
+    tokenEncrypted: (0, mysql_core_1.text)('token_encrypted').notNull(),
+    tokenMasked: (0, mysql_core_1.varchar)('token_masked', { length: 64 }).notNull(),
+    username: (0, mysql_core_1.varchar)('username', { length: 190 }),
+    title: (0, mysql_core_1.varchar)('title', { length: 190 }).notNull(),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['PENDING_VERIFY', 'ACTIVE', 'DISABLED', 'ERROR']).notNull().default('PENDING_VERIFY'),
+    mode: (0, mysql_core_1.mysqlEnum)('mode', ['WEBHOOK', 'POLLING']).notNull().default('POLLING'),
+    webhookSecret: (0, mysql_core_1.char)('webhook_secret', { length: 64 }),
+    webhookUrl: (0, mysql_core_1.varchar)('webhook_url', { length: 255 }),
+    webhookRegisteredAt: (0, mysql_core_1.datetime)('webhook_registered_at'),
+    healthJson: (0, mysql_core_1.json)('health_json').$type(),
+    aiEnabled: (0, mysql_core_1.tinyint)('ai_enabled').notNull().default(0),
+    aiSystemPrompt: (0, mysql_core_1.text)('ai_system_prompt'),
+    lastEventAt: (0, mysql_core_1.datetime)('last_event_at'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_bots_tenant').on(t.tenantId)]);
+exports.botUsers = (0, mysql_core_1.mysqlTable)('bot_users', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }).notNull(),
+    platformUserId: (0, mysql_core_1.varchar)('platform_user_id', { length: 190 }).notNull(),
+    username: (0, mysql_core_1.varchar)('username', { length: 190 }),
+    displayName: (0, mysql_core_1.varchar)('display_name', { length: 190 }),
+    firstSeenAt: (0, mysql_core_1.datetime)('first_seen_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    lastSeenAt: (0, mysql_core_1.datetime)('last_seen_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    stateJson: (0, mysql_core_1.json)('state_json').$type(),
+}, (t) => [(0, mysql_core_1.unique)('uq_bot_users').on(t.botId, t.platformUserId)]);
+exports.botConversations = (0, mysql_core_1.mysqlTable)('bot_conversations', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }).notNull(),
+    platform: (0, mysql_core_1.mysqlEnum)('platform', ['telegram', 'bale', 'rubika']).notNull(),
+    chatRef: (0, mysql_core_1.varchar)('chat_ref', { length: 190 }).notNull(),
+    platformUserId: (0, mysql_core_1.varchar)('platform_user_id', { length: 190 }).notNull().default(''),
+    lastActivityAt: (0, mysql_core_1.datetime)('last_activity_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_bot_conversation_scope').on(t.botId, t.platform, t.chatRef, t.platformUserId),
+    (0, mysql_core_1.index)('idx_bot_conv_tenant').on(t.tenantId, t.botId, t.lastActivityAt),
+]);
+exports.botMessages = (0, mysql_core_1.mysqlTable)('bot_messages', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }).notNull(),
+    conversationId: (0, mysql_core_1.char)('conversation_id', { length: 26 }).notNull(),
+    platform: (0, mysql_core_1.mysqlEnum)('platform', ['telegram', 'bale', 'rubika']).notNull(),
+    direction: (0, mysql_core_1.mysqlEnum)('direction', ['INBOUND', 'OUTBOUND']).notNull(),
+    platformMessageId: (0, mysql_core_1.varchar)('platform_message_id', { length: 190 }),
+    senderRef: (0, mysql_core_1.varchar)('sender_ref', { length: 190 }),
+    text: (0, mysql_core_1.text)('text'),
+    actionType: (0, mysql_core_1.varchar)('action_type', { length: 80 }),
+    actionRef: (0, mysql_core_1.varchar)('action_ref', { length: 190 }),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['RECEIVED', 'SENT', 'FAILED']).notNull(),
+    createdAt: ts(),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_bot_messages_conversation').on(t.conversationId, t.createdAt),
+    (0, mysql_core_1.index)('idx_bot_messages_bot_created').on(t.botId, t.createdAt),
+    (0, mysql_core_1.index)('idx_bot_messages_tenant').on(t.tenantId, t.createdAt),
+]);
+exports.botCommands = (0, mysql_core_1.mysqlTable)('bot_commands', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    command: (0, mysql_core_1.varchar)('command', { length: 64 }).notNull(),
+    descriptionFa: (0, mysql_core_1.varchar)('description_fa', { length: 190 }).notNull().default(''),
+    responseKind: (0, mysql_core_1.mysqlEnum)('response_kind', ['TEXT', 'BUTTONS', 'AI', 'WORKFLOW']).notNull().default('TEXT'),
+    responsePayload: (0, mysql_core_1.json)('response_payload').$type(),
+    isEnabled: (0, mysql_core_1.tinyint)('is_enabled').notNull().default(1),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_bot_commands').on(t.botId, t.command)]);
+exports.botKeywords = (0, mysql_core_1.mysqlTable)('bot_keywords', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    keyword: (0, mysql_core_1.varchar)('keyword', { length: 190 }).notNull(),
+    matchKind: (0, mysql_core_1.mysqlEnum)('match_kind', ['EXACT', 'CONTAINS']).notNull().default('CONTAINS'),
+    responseKind: (0, mysql_core_1.mysqlEnum)('response_kind', ['TEXT', 'BUTTONS', 'AI', 'WORKFLOW']).notNull().default('TEXT'),
+    responsePayload: (0, mysql_core_1.json)('response_payload').$type(),
+    isEnabled: (0, mysql_core_1.tinyint)('is_enabled').notNull().default(1),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.index)('idx_bot_keywords_bot').on(t.botId)]);
+exports.workflows = (0, mysql_core_1.mysqlTable)('workflows', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }).notNull(),
+    nameFa: (0, mysql_core_1.varchar)('name_fa', { length: 190 }).notNull(),
+    definitionJson: (0, mysql_core_1.json)('definition_json').$type().notNull(),
+    isEnabled: (0, mysql_core_1.tinyint)('is_enabled').notNull().default(1),
+    runCount: (0, mysql_core_1.int)('run_count').notNull().default(0),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_workflows_tenant').on(t.tenantId)]);
+exports.workflowRuns = (0, mysql_core_1.mysqlTable)('workflow_runs', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    workflowId: (0, mysql_core_1.char)('workflow_id', { length: 26 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    triggerKind: (0, mysql_core_1.varchar)('trigger_kind', { length: 40 }).notNull(),
+    triggerRef: (0, mysql_core_1.varchar)('trigger_ref', { length: 190 }),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['RUNNING', 'COMPLETED', 'FAILED', 'TIMEOUT', 'ABORTED']).notNull().default('RUNNING'),
+    stepsExecuted: (0, mysql_core_1.int)('steps_executed').notNull().default(0),
+    logJson: (0, mysql_core_1.json)('log_json').$type(),
+    errorCode: (0, mysql_core_1.varchar)('error_code', { length: 80 }),
+    startedAt: ts(),
+    finishedAt: (0, mysql_core_1.datetime)('finished_at'),
+}, (t) => [(0, mysql_core_1.index)('idx_wfruns_workflow').on(t.workflowId, t.startedAt)]);
+exports.botEvents = (0, mysql_core_1.mysqlTable)('bot_events', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }).notNull(),
+    platform: (0, mysql_core_1.mysqlEnum)('platform', ['telegram', 'bale', 'rubika']).notNull(),
+    externalId: (0, mysql_core_1.varchar)('external_id', { length: 190 }),
+    dedupHash: (0, mysql_core_1.char)('dedup_hash', { length: 64 }).notNull(),
+    kind: (0, mysql_core_1.varchar)('kind', { length: 40 }).notNull(),
+    chatRef: (0, mysql_core_1.varchar)('chat_ref', { length: 190 }),
+    senderRef: (0, mysql_core_1.varchar)('sender_ref', { length: 190 }),
+    payloadJson: (0, mysql_core_1.json)('payload_json').$type().notNull(),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['PENDING', 'PROCESSING', 'PROCESSED', 'FAILED']).notNull().default('PENDING'),
+    createdAt: ts(),
+    processedAt: (0, mysql_core_1.datetime)('processed_at'),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_bot_events_dedup').on(t.botId, t.dedupHash),
+    (0, mysql_core_1.index)('idx_bot_events_tenant_state').on(t.tenantId, t.state),
+]);
+exports.media = (0, mysql_core_1.mysqlTable)('media', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    filename: (0, mysql_core_1.varchar)('filename', { length: 255 }).notNull(),
+    mime: (0, mysql_core_1.varchar)('mime', { length: 120 }).notNull(),
+    sizeBytes: (0, mysql_core_1.bigint)('size_bytes', { mode: 'number' }).notNull(),
+    width: (0, mysql_core_1.int)('width'),
+    height: (0, mysql_core_1.int)('height'),
+    checksum: (0, mysql_core_1.char)('checksum', { length: 64 }).notNull(),
+    storagePath: (0, mysql_core_1.varchar)('storage_path', { length: 255 }).notNull(),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.index)('idx_media_tenant').on(t.tenantId)]);
+exports.posts = (0, mysql_core_1.mysqlTable)('posts', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    title: (0, mysql_core_1.varchar)('title', { length: 190 }),
+    body: (0, mysql_core_1.text)('body').notNull(),
+    parseMode: (0, mysql_core_1.mysqlEnum)('parse_mode', ['NONE', 'HTML', 'MARKDOWN']).notNull().default('NONE'),
+    mediaId: (0, mysql_core_1.char)('media_id', { length: 26 }),
+    /** Ordered media collection; mediaId remains the legacy first-item pointer. */
+    mediaIds: (0, mysql_core_1.json)('media_ids_json').$type(),
+    buttonsJson: (0, mysql_core_1.json)('buttons_json').$type(),
+    source: (0, mysql_core_1.mysqlEnum)('source', ['MANUAL', 'GOLD', 'WORDPRESS', 'WORKFLOW']).notNull().default('MANUAL'),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['DRAFT', 'SCHEDULED', 'QUEUED', 'PUBLISHING', 'PUBLISHED', 'PARTIAL', 'FAILED', 'CANCELLED']).notNull().default('DRAFT'),
+    scheduledAt: (0, mysql_core_1.datetime)('scheduled_at'),
+    publishedAt: (0, mysql_core_1.datetime)('published_at'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_posts_tenant_state').on(t.tenantId, t.state),
+    (0, mysql_core_1.index)('idx_posts_schedule').on(t.state, t.scheduledAt),
+]);
+exports.channelSavedButtons = (0, mysql_core_1.mysqlTable)('channel_saved_buttons', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    channelId: (0, mysql_core_1.char)('channel_id', { length: 26 }).notNull(),
+    label: (0, mysql_core_1.varchar)('label', { length: 64 }).notNull(),
+    targetType: (0, mysql_core_1.varchar)('target_type', { length: 24 }).$type().notNull(),
+    targetValue: (0, mysql_core_1.varchar)('target_value', { length: 255 }).notNull(),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_channel_saved_button_label').on(t.tenantId, t.channelId, t.label),
+    (0, mysql_core_1.index)('idx_channel_saved_buttons_scope').on(t.tenantId, t.channelId, t.createdAt),
+]);
+exports.channelSavedFooters = (0, mysql_core_1.mysqlTable)('channel_saved_footers', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    channelId: (0, mysql_core_1.char)('channel_id', { length: 26 }).notNull(),
+    content: (0, mysql_core_1.varchar)('content', { length: 500 }).notNull(),
+    contentHash: (0, mysql_core_1.char)('content_hash', { length: 64 }).notNull(),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_channel_saved_footer_hash').on(t.tenantId, t.channelId, t.contentHash),
+    (0, mysql_core_1.index)('idx_channel_saved_footers_scope').on(t.tenantId, t.channelId, t.createdAt),
+]);
+exports.postTargets = (0, mysql_core_1.mysqlTable)('post_targets', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    postId: (0, mysql_core_1.char)('post_id', { length: 26 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    channelId: (0, mysql_core_1.char)('channel_id', { length: 26 }).notNull(),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['PENDING', 'PROCESSING', 'SENT', 'RETRYING', 'FAILED', 'CANCELLED']).notNull().default('PENDING'),
+    attempts: (0, mysql_core_1.int)('attempts').notNull().default(0),
+    nextRetryAt: (0, mysql_core_1.datetime)('next_retry_at'),
+    providerMessageId: (0, mysql_core_1.varchar)('provider_message_id', { length: 190 }),
+    errorCode: (0, mysql_core_1.varchar)('error_code', { length: 80 }),
+    errorMessage: (0, mysql_core_1.varchar)('error_message', { length: 255 }),
+    sentAt: (0, mysql_core_1.datetime)('sent_at'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_post_targets').on(t.postId, t.channelId),
+    (0, mysql_core_1.index)('idx_pt_tenant_state').on(t.tenantId, t.state),
+    (0, mysql_core_1.index)('idx_pt_retry').on(t.state, t.nextRetryAt),
+]);
+exports.outboxEvents = (0, mysql_core_1.mysqlTable)('outbox_events', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    aggregateType: (0, mysql_core_1.varchar)('aggregate_type', { length: 60 }).notNull(),
+    aggregateId: (0, mysql_core_1.char)('aggregate_id', { length: 26 }).notNull(),
+    eventType: (0, mysql_core_1.varchar)('event_type', { length: 80 }).notNull(),
+    payloadJson: (0, mysql_core_1.json)('payload_json').$type().notNull(),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['PENDING', 'DISPATCHED', 'FAILED']).notNull().default('PENDING'),
+    attempts: (0, mysql_core_1.int)('attempts').notNull().default(0),
+    createdAt: ts(),
+    dispatchedAt: (0, mysql_core_1.datetime)('dispatched_at'),
+}, (t) => [(0, mysql_core_1.index)('idx_outbox_pending').on(t.state, t.createdAt)]);
+exports.idempotencyKeys = (0, mysql_core_1.mysqlTable)('idempotency_keys', {
+    scope: (0, mysql_core_1.varchar)('scope', { length: 80 }).notNull(),
+    idemKey: (0, mysql_core_1.varchar)('idem_key', { length: 190 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['IN_PROGRESS', 'COMPLETED', 'FAILED']).notNull().default('IN_PROGRESS'),
+    resultJson: (0, mysql_core_1.json)('result_json').$type(),
+    createdAt: ts(),
+    expiresAt: (0, mysql_core_1.datetime)('expires_at').notNull(),
+}, (t) => [(0, mysql_core_1.primaryKey)({ columns: [t.scope, t.idemKey] })]);
+exports.aiJobs = (0, mysql_core_1.mysqlTable)('ai_jobs', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    purpose: (0, mysql_core_1.mysqlEnum)('purpose', ['CAPTION', 'AUTO_REPLY', 'CUSTOM']).notNull().default('CUSTOM'),
+    provider: (0, mysql_core_1.varchar)('provider', { length: 40 }).notNull(),
+    model: (0, mysql_core_1.varchar)('model', { length: 80 }),
+    inputText: (0, mysql_core_1.text)('input_text').notNull(),
+    outputText: (0, mysql_core_1.text)('output_text'),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['QUEUED', 'RUNNING', 'COMPLETED', 'FAILED']).notNull().default('QUEUED'),
+    promptTokens: (0, mysql_core_1.int)('prompt_tokens'),
+    completionTokens: (0, mysql_core_1.int)('completion_tokens'),
+    errorCode: (0, mysql_core_1.varchar)('error_code', { length: 80 }),
+    createdAt: ts(),
+    finishedAt: (0, mysql_core_1.datetime)('finished_at'),
+}, (t) => [(0, mysql_core_1.index)('idx_ai_tenant').on(t.tenantId, t.status)]);
+exports.aiUsageMonthly = (0, mysql_core_1.mysqlTable)('ai_usage_monthly', {
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    periodYm: (0, mysql_core_1.char)('period_ym', { length: 7 }).notNull(),
+    requestCount: (0, mysql_core_1.int)('request_count').notNull().default(0),
+    tokenCount: (0, mysql_core_1.bigint)('token_count', { mode: 'number' }).notNull().default(0),
+}, (t) => [(0, mysql_core_1.primaryKey)({ columns: [t.tenantId, t.periodYm] })]);
+exports.wordpressSites = (0, mysql_core_1.mysqlTable)('wordpress_sites', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    siteUrl: (0, mysql_core_1.varchar)('site_url', { length: 255 }).notNull(),
+    siteKey: (0, mysql_core_1.char)('site_key', { length: 32 }).notNull(),
+    secretHash: (0, mysql_core_1.char)('secret_hash', { length: 64 }).notNull(),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['PENDING', 'ACTIVE', 'DISABLED', 'ERROR']).notNull().default('PENDING'),
+    autoPublish: (0, mysql_core_1.tinyint)('auto_publish').notNull().default(1),
+    sendImage: (0, mysql_core_1.tinyint)('send_image').notNull().default(1),
+    categoryMapJson: (0, mysql_core_1.json)('category_map_json').$type(),
+    channelIdsJson: (0, mysql_core_1.json)('channel_ids_json').$type(),
+    automationJson: (0, mysql_core_1.json)('automation_json').$type(),
+    messageStyle: (0, mysql_core_1.varchar)('message_style', { length: 32 }).notNull().default('shop'),
+    lastSyncAt: (0, mysql_core_1.datetime)('last_sync_at'),
+    lastError: (0, mysql_core_1.varchar)('last_error', { length: 255 }),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_wp_key').on(t.siteKey), (0, mysql_core_1.unique)('uq_wp_tenant_url').on(t.tenantId, t.siteUrl)]);
+exports.wordpressProducts = (0, mysql_core_1.mysqlTable)('wordpress_products', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    siteId: (0, mysql_core_1.char)('site_id', { length: 26 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    wcProductId: (0, mysql_core_1.bigint)('wc_product_id', { mode: 'number' }).notNull(),
+    title: (0, mysql_core_1.varchar)('title', { length: 255 }).notNull(),
+    priceRial: (0, mysql_core_1.bigint)('price_rial', { mode: 'number' }),
+    regularPriceRial: (0, mysql_core_1.bigint)('regular_price_rial', { mode: 'number' }),
+    salePriceRial: (0, mysql_core_1.bigint)('sale_price_rial', { mode: 'number' }),
+    oldPriceRial: (0, mysql_core_1.bigint)('old_price_rial', { mode: 'number' }),
+    stockStatus: (0, mysql_core_1.varchar)('stock_status', { length: 30 }),
+    isFeatured: (0, mysql_core_1.tinyint)('is_featured').notNull().default(0),
+    salesCount: (0, mysql_core_1.int)('sales_count').notNull().default(0),
+    sku: (0, mysql_core_1.varchar)('sku', { length: 190 }),
+    excerpt: (0, mysql_core_1.text)('excerpt'),
+    body: (0, mysql_core_1.text)('body'),
+    categoriesJson: (0, mysql_core_1.json)('categories_json').$type(),
+    customTitle: (0, mysql_core_1.varchar)('custom_title', { length: 255 }),
+    customBody: (0, mysql_core_1.text)('custom_body'),
+    customImageUrl: (0, mysql_core_1.varchar)('custom_image_url', { length: 512 }),
+    customImageMediaId: (0, mysql_core_1.char)('custom_image_media_id', { length: 26 }),
+    permalink: (0, mysql_core_1.varchar)('permalink', { length: 255 }),
+    imageUrl: (0, mysql_core_1.varchar)('image_url', { length: 512 }),
+    contentHash: (0, mysql_core_1.char)('content_hash', { length: 64 }),
+    lastSyncedAt: (0, mysql_core_1.datetime)('last_synced_at'),
+    lastPublishedAt: (0, mysql_core_1.datetime)('last_published_at'),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_wpprod').on(t.siteId, t.wcProductId),
+    (0, mysql_core_1.index)('idx_wpprod_tenant_site').on(t.tenantId, t.siteId, t.lastSyncedAt),
+]);
+exports.wordpressContents = (0, mysql_core_1.mysqlTable)('wordpress_contents', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    siteId: (0, mysql_core_1.char)('site_id', { length: 26 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    contentId: (0, mysql_core_1.bigint)('content_id', { mode: 'number' }).notNull(),
+    title: (0, mysql_core_1.varchar)('title', { length: 255 }).notNull(),
+    body: (0, mysql_core_1.text)('body').notNull(),
+    excerpt: (0, mysql_core_1.text)('excerpt'),
+    permalink: (0, mysql_core_1.varchar)('permalink', { length: 512 }),
+    imageUrl: (0, mysql_core_1.varchar)('image_url', { length: 512 }),
+    contentType: (0, mysql_core_1.varchar)('content_type', { length: 32 }).notNull().default('post'),
+    categoriesJson: (0, mysql_core_1.json)('categories_json').$type(),
+    customTitle: (0, mysql_core_1.varchar)('custom_title', { length: 255 }),
+    customBody: (0, mysql_core_1.text)('custom_body'),
+    customImageUrl: (0, mysql_core_1.varchar)('custom_image_url', { length: 512 }),
+    customImageMediaId: (0, mysql_core_1.char)('custom_image_media_id', { length: 26 }),
+    contentHash: (0, mysql_core_1.char)('content_hash', { length: 64 }).notNull(),
+    postId: (0, mysql_core_1.char)('post_id', { length: 26 }).notNull(),
+    lastPublishedAt: (0, mysql_core_1.datetime)('last_published_at'),
+    createdAt: ts(),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_wpcontent').on(t.siteId, t.contentId),
+    (0, mysql_core_1.index)('idx_wpcontent_tenant_site').on(t.tenantId, t.siteId, t.createdAt),
+]);
+exports.messageTemplates = (0, mysql_core_1.mysqlTable)('message_templates', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    name: (0, mysql_core_1.varchar)('name', { length: 120 }).notNull(),
+    description: (0, mysql_core_1.varchar)('description', { length: 255 }),
+    body: (0, mysql_core_1.text)('body').notNull(),
+    settingsJson: (0, mysql_core_1.json)('settings_json').$type(),
+    category: (0, mysql_core_1.varchar)('category', { length: 40 }).notNull().default('general'),
+    isDefault: (0, mysql_core_1.tinyint)('is_default').notNull().default(0),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_msg_tpl_tenant').on(t.tenantId), (0, mysql_core_1.unique)('uq_msg_tpl_name').on(t.tenantId, t.name)]);
+exports.wordpressCampaigns = (0, mysql_core_1.mysqlTable)('wordpress_campaigns', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    siteId: (0, mysql_core_1.char)('site_id', { length: 26 }).notNull(),
+    name: (0, mysql_core_1.varchar)('name', { length: 120 }).notNull(),
+    itemType: (0, mysql_core_1.varchar)('item_type', { length: 20 }).notNull().default('product'),
+    selectionType: (0, mysql_core_1.varchar)('selection_type', { length: 40 }).notNull().default('latest'),
+    selectionIdsJson: (0, mysql_core_1.json)('selection_ids_json').$type(),
+    templateId: (0, mysql_core_1.char)('template_id', { length: 26 }),
+    channelIdsJson: (0, mysql_core_1.json)('channel_ids_json').$type(),
+    frequency: (0, mysql_core_1.varchar)('frequency', { length: 20 }).notNull().default('daily'),
+    sendTime: (0, mysql_core_1.varchar)('send_time', { length: 5 }).notNull().default('12:00'),
+    daysJson: (0, mysql_core_1.json)('days_json').$type(),
+    itemCount: (0, mysql_core_1.int)('item_count').notNull().default(3),
+    isEnabled: (0, mysql_core_1.tinyint)('is_enabled').notNull().default(0),
+    sentIdsJson: (0, mysql_core_1.json)('sent_ids_json').$type(),
+    lastRunAt: (0, mysql_core_1.datetime)('last_run_at'),
+    lastResultJson: (0, mysql_core_1.json)('last_result_json').$type(),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_wp_campaign_tenant').on(t.tenantId), (0, mysql_core_1.index)('idx_wp_campaign_due').on(t.isEnabled, t.sendTime), (0, mysql_core_1.unique)('uq_wp_campaign_name').on(t.tenantId, t.name)]);
+exports.telegramStickerSets = (0, mysql_core_1.mysqlTable)('telegram_sticker_sets', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    botId: (0, mysql_core_1.char)('bot_id', { length: 26 }),
+    telegramName: (0, mysql_core_1.varchar)('telegram_name', { length: 255 }).notNull(),
+    title: (0, mysql_core_1.varchar)('title', { length: 255 }).notNull(),
+    stickerType: (0, mysql_core_1.varchar)('sticker_type', { length: 30 }).notNull(),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_tg_sticker_sets_tenant').on(t.tenantId), (0, mysql_core_1.index)('idx_tg_sticker_sets_bot').on(t.tenantId, t.botId), (0, mysql_core_1.unique)('uq_tg_sticker_set').on(t.tenantId, t.telegramName)]);
+exports.telegramStickers = (0, mysql_core_1.mysqlTable)('telegram_stickers', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    setId: (0, mysql_core_1.char)('set_id', { length: 26 }).notNull(),
+    fileId: (0, mysql_core_1.varchar)('file_id', { length: 512 }).notNull(),
+    fileUniqueId: (0, mysql_core_1.varchar)('file_unique_id', { length: 255 }).notNull(),
+    stickerType: (0, mysql_core_1.varchar)('sticker_type', { length: 30 }).notNull(),
+    emoji: (0, mysql_core_1.varchar)('emoji', { length: 32 }),
+    width: (0, mysql_core_1.int)('width'),
+    height: (0, mysql_core_1.int)('height'),
+    isAnimated: (0, mysql_core_1.tinyint)('is_animated').notNull().default(0),
+    isVideo: (0, mysql_core_1.tinyint)('is_video').notNull().default(0),
+    thumbnailFileId: (0, mysql_core_1.varchar)('thumbnail_file_id', { length: 512 }),
+    customEmojiId: (0, mysql_core_1.varchar)('custom_emoji_id', { length: 255 }),
+    positionIndex: (0, mysql_core_1.int)('position_index').notNull().default(0),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.index)('idx_tg_stickers_tenant').on(t.tenantId), (0, mysql_core_1.index)('idx_tg_stickers_set').on(t.setId, t.positionIndex), (0, mysql_core_1.unique)('uq_tg_sticker_file').on(t.tenantId, t.setId, t.fileUniqueId)]);
+exports.goldConfigs = (0, mysql_core_1.mysqlTable)('gold_configs', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    sourceUrl: (0, mysql_core_1.varchar)('source_url', { length: 512 }).notNull(),
+    apiToken: (0, mysql_core_1.varchar)('api_token', { length: 1024 }),
+    templateText: (0, mysql_core_1.text)('template_text').notNull(),
+    channelIds: (0, mysql_core_1.json)('channel_ids').$type().notNull(),
+    frequencyMinutes: (0, mysql_core_1.int)('frequency_minutes').notNull().default(60),
+    timezone: (0, mysql_core_1.varchar)('timezone', { length: 64 }).notNull().default('Asia/Tehran'),
+    changeOnly: (0, mysql_core_1.tinyint)('change_only').notNull().default(1),
+    isEnabled: (0, mysql_core_1.tinyint)('is_enabled').notNull().default(0),
+    lastSnapshotJson: (0, mysql_core_1.json)('last_snapshot_json').$type(),
+    lastRunAt: (0, mysql_core_1.datetime)('last_run_at'),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_gold_tenant').on(t.tenantId)]);
+exports.goldSnapshots = (0, mysql_core_1.mysqlTable)('gold_snapshots', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    configId: (0, mysql_core_1.char)('config_id', { length: 26 }).notNull(),
+    pricesJson: (0, mysql_core_1.json)('prices_json').$type().notNull(),
+    contentHash: (0, mysql_core_1.char)('content_hash', { length: 64 }).notNull(),
+    // NOTE: this table's timestamp column is `captured_at` (not `created_at`),
+    // so it must NOT use the shared ts() helper which hardcodes 'created_at'.
+    capturedAt: (0, mysql_core_1.datetime)('captured_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    published: (0, mysql_core_1.tinyint)('published').notNull().default(0),
+}, (t) => [(0, mysql_core_1.index)('idx_gold_snap').on(t.configId, t.capturedAt)]);
+exports.payments = (0, mysql_core_1.mysqlTable)('payments', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    purpose: (0, mysql_core_1.mysqlEnum)('purpose', ['SUBSCRIPTION', 'WALLET_TOPUP']).notNull().default('SUBSCRIPTION'),
+    planId: (0, mysql_core_1.char)('plan_id', { length: 26 }),
+    months: (0, mysql_core_1.int)('months').notNull().default(1),
+    amountRial: (0, mysql_core_1.bigint)('amount_rial', { mode: 'number' }).notNull(),
+    gateway: (0, mysql_core_1.varchar)('gateway', { length: 40 }).notNull(),
+    gatewayRef: (0, mysql_core_1.varchar)('gateway_ref', { length: 190 }),
+    authority: (0, mysql_core_1.varchar)('authority', { length: 190 }),
+    reference: (0, mysql_core_1.char)('reference', { length: 26 }),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['CREATED', 'REDIRECTED', 'VERIFIED', 'FAILED', 'CANCELLED', 'REFUNDED', 'PENDING_REVIEW', 'REJECTED', 'COMPLETED']).notNull().default('CREATED'),
+    verifiedAt: (0, mysql_core_1.datetime)('verified_at'),
+    metaJson: (0, mysql_core_1.json)('meta_json').$type(),
+    receiptMediaId: (0, mysql_core_1.char)('receipt_media_id', { length: 26 }),
+    receiptNote: (0, mysql_core_1.varchar)('receipt_note', { length: 500 }),
+    reviewedBy: (0, mysql_core_1.char)('reviewed_by', { length: 26 }),
+    reviewedAt: (0, mysql_core_1.datetime)('reviewed_at'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_payments_authority').on(t.gateway, t.authority),
+    (0, mysql_core_1.unique)('uq_payments_reference').on(t.reference),
+    (0, mysql_core_1.index)('idx_payments_tenant').on(t.tenantId, t.state),
+    (0, mysql_core_1.index)('idx_payments_state_created').on(t.state, t.createdAt),
+]);
+exports.walletAccounts = (0, mysql_core_1.mysqlTable)('wallet_accounts', {
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).primaryKey(),
+    balanceRial: (0, mysql_core_1.bigint)('balance_rial', { mode: 'number' }).notNull().default(0),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+});
+exports.walletLedger = (0, mysql_core_1.mysqlTable)('wallet_ledger', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    entryKind: (0, mysql_core_1.mysqlEnum)('entry_kind', ['CREDIT', 'DEBIT', 'REFUND', 'BONUS', 'PAYMENT', 'ADJUSTMENT']).notNull(),
+    amountRial: (0, mysql_core_1.bigint)('amount_rial', { mode: 'number' }).notNull(),
+    balanceAfter: (0, mysql_core_1.bigint)('balance_after', { mode: 'number' }).notNull(),
+    refType: (0, mysql_core_1.varchar)('ref_type', { length: 60 }),
+    refId: (0, mysql_core_1.char)('ref_id', { length: 26 }),
+    memoFa: (0, mysql_core_1.varchar)('memo_fa', { length: 255 }).notNull().default(''),
+    createdAt: ts(),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_ledger_tenant').on(t.tenantId, t.createdAt),
+    (0, mysql_core_1.unique)('uq_ledger_tenant_ref').on(t.tenantId, t.refType, t.refId, t.entryKind),
+]);
+exports.pointLedger = (0, mysql_core_1.mysqlTable)('point_ledger', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    entryKind: (0, mysql_core_1.mysqlEnum)('entry_kind', ['EARN', 'SPEND', 'ADJUSTMENT']).notNull(),
+    amount: (0, mysql_core_1.int)('amount').notNull(),
+    balanceAfter: (0, mysql_core_1.int)('balance_after').notNull(),
+    refType: (0, mysql_core_1.varchar)('ref_type', { length: 60 }),
+    refId: (0, mysql_core_1.char)('ref_id', { length: 26 }),
+    memoFa: (0, mysql_core_1.varchar)('memo_fa', { length: 255 }).notNull().default(''),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.index)('idx_point_tenant').on(t.tenantId, t.createdAt)]);
+exports.referrals = (0, mysql_core_1.mysqlTable)('referrals', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    referrerTenantId: (0, mysql_core_1.char)('referrer_tenant_id', { length: 26 }).notNull(),
+    referredTenantId: (0, mysql_core_1.char)('referred_tenant_id', { length: 26 }).notNull(),
+    referralCode: (0, mysql_core_1.varchar)('referral_code', { length: 32 }).notNull(),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['REGISTERED', 'REWARDED', 'FAILED']).notNull().default('REGISTERED'),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_referrals_referred').on(t.referredTenantId)]);
+exports.referralRewards = (0, mysql_core_1.mysqlTable)('referral_rewards', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    referralId: (0, mysql_core_1.char)('referral_id', { length: 26 }).notNull(),
+    rewardKind: (0, mysql_core_1.mysqlEnum)('reward_kind', ['REGISTER', 'FIRST_PURCHASE']).notNull(),
+    amount: (0, mysql_core_1.int)('amount').notNull(),
+    ledgerRef: (0, mysql_core_1.char)('ledger_ref', { length: 26 }),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_referral_rewards').on(t.referralId, t.rewardKind)]);
+exports.notifications = (0, mysql_core_1.mysqlTable)('notifications', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    kind: (0, mysql_core_1.varchar)('kind', { length: 80 }).notNull(),
+    subjectId: (0, mysql_core_1.char)('subject_id', { length: 26 }),
+    titleFa: (0, mysql_core_1.varchar)('title_fa', { length: 190 }).notNull(),
+    bodyFa: (0, mysql_core_1.text)('body_fa').notNull(),
+    readAt: (0, mysql_core_1.datetime)('read_at'),
+    createdAt: ts(),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_notif_subject').on(t.tenantId, t.kind, t.subjectId),
+    (0, mysql_core_1.index)('idx_notif_tenant').on(t.tenantId, t.createdAt),
+]);
+exports.notificationOutbound = (0, mysql_core_1.mysqlTable)('notification_outbound', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    kind: (0, mysql_core_1.varchar)('kind', { length: 80 }).notNull(),
+    subjectId: (0, mysql_core_1.char)('subject_id', { length: 26 }).notNull(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    channelId: (0, mysql_core_1.char)('channel_id', { length: 26 }),
+    destination: (0, mysql_core_1.mysqlEnum)('destination', ['INAPP', 'TELEGRAM', 'BALE', 'RUBIKA', 'EMAIL', 'SMS']).notNull(),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['PENDING', 'PROCESSING', 'SENT', 'FAILED', 'SKIPPED']).notNull().default('PENDING'),
+    attempts: (0, mysql_core_1.int)('attempts').notNull().default(0),
+    lastError: (0, mysql_core_1.varchar)('last_error', { length: 255 }),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    sentAt: (0, mysql_core_1.datetime)('sent_at'),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_notif_outbound').on(t.kind, t.subjectId, t.destination, t.channelId),
+    (0, mysql_core_1.index)('idx_notif_out_state').on(t.state, t.createdAt),
+]);
+exports.events = (0, mysql_core_1.mysqlTable)('events', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }),
+    name: (0, mysql_core_1.varchar)('name', { length: 80 }).notNull(),
+    subjectType: (0, mysql_core_1.varchar)('subject_type', { length: 60 }),
+    subjectId: (0, mysql_core_1.char)('subject_id', { length: 26 }),
+    propsJson: (0, mysql_core_1.json)('props_json').$type(),
+    createdAt: ts(),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_events_tenant_time').on(t.tenantId, t.createdAt),
+    (0, mysql_core_1.index)('idx_events_name').on(t.name, t.createdAt),
+]);
+exports.eventDaily = (0, mysql_core_1.mysqlTable)('event_daily', {
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    day: (0, mysql_core_1.date)('day').notNull(),
+    eventName: (0, mysql_core_1.varchar)('event_name', { length: 80 }).notNull(),
+    eventCount: (0, mysql_core_1.int)('event_count').notNull().default(0),
+}, (t) => [(0, mysql_core_1.primaryKey)({ columns: [t.tenantId, t.day, t.eventName] })]);
+exports.analyticsEvents = (0, mysql_core_1.mysqlTable)('analytics_events', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    userId: (0, mysql_core_1.char)('user_id', { length: 26 }),
+    eventType: (0, mysql_core_1.varchar)('event_type', { length: 64 }).notNull(),
+    occurredAt: (0, mysql_core_1.datetime)('occurred_at', { fsp: 3 }).notNull(),
+    postId: (0, mysql_core_1.char)('post_id', { length: 26 }),
+    targetId: (0, mysql_core_1.char)('target_id', { length: 26 }),
+    channelId: (0, mysql_core_1.char)('channel_id', { length: 26 }),
+    campaignId: (0, mysql_core_1.char)('campaign_id', { length: 26 }),
+    linkId: (0, mysql_core_1.char)('link_id', { length: 26 }),
+    platform: (0, mysql_core_1.varchar)('platform', { length: 24 }),
+    source: (0, mysql_core_1.varchar)('source', { length: 32 }),
+    value: (0, mysql_core_1.bigint)('value', { mode: 'bigint' }).notNull().default(1n),
+    metadataJson: (0, mysql_core_1.text)('metadata_json'),
+    dedupeKey: (0, mysql_core_1.varchar)('dedupe_key', { length: 191 }),
+    createdAt: (0, mysql_core_1.datetime)('created_at', { fsp: 3 }).notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP(3)`),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_analytics_user_time').on(t.userId, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_event_time').on(t.eventType, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_post_time').on(t.postId, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_target_time').on(t.targetId, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_channel_time').on(t.channelId, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_campaign_time').on(t.campaignId, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_link_time').on(t.linkId, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_platform_time').on(t.platform, t.occurredAt),
+    (0, mysql_core_1.index)('idx_analytics_dedupe').on(t.dedupeKey),
+]);
+exports.analyticsLinks = (0, mysql_core_1.mysqlTable)('analytics_links', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    userId: (0, mysql_core_1.char)('user_id', { length: 26 }).notNull(),
+    postId: (0, mysql_core_1.char)('post_id', { length: 26 }),
+    targetId: (0, mysql_core_1.char)('target_id', { length: 26 }),
+    channelId: (0, mysql_core_1.char)('channel_id', { length: 26 }),
+    campaignId: (0, mysql_core_1.char)('campaign_id', { length: 26 }),
+    token: (0, mysql_core_1.varchar)('token', { length: 96 }).notNull(),
+    destinationUrl: (0, mysql_core_1.text)('destination_url').notNull(),
+    clickCount: (0, mysql_core_1.bigint)('click_count', { mode: 'number' }).notNull().default(0),
+    lastClickedAt: (0, mysql_core_1.datetime)('last_clicked_at', { fsp: 3 }),
+    createdAt: (0, mysql_core_1.datetime)('created_at', { fsp: 3 }).notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP(3)`),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at', { fsp: 3 }).notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP(3)`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_analytics_link_token').on(t.token),
+    (0, mysql_core_1.index)('idx_analytics_links_user').on(t.userId, t.createdAt),
+    (0, mysql_core_1.index)('idx_analytics_links_post').on(t.postId, t.createdAt),
+    (0, mysql_core_1.index)('idx_analytics_links_campaign').on(t.campaignId, t.createdAt),
+]);
+exports.analyticsLinkClicks = (0, mysql_core_1.mysqlTable)('analytics_link_clicks', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    linkId: (0, mysql_core_1.char)('link_id', { length: 26 }).notNull(),
+    clickedAt: (0, mysql_core_1.datetime)('clicked_at', { fsp: 3 }).notNull(),
+    platform: (0, mysql_core_1.varchar)('platform', { length: 24 }),
+    source: (0, mysql_core_1.varchar)('source', { length: 32 }),
+    referrer: (0, mysql_core_1.varchar)('referrer', { length: 500 }),
+    userAgent: (0, mysql_core_1.varchar)('user_agent', { length: 500 }),
+    ipHash: (0, mysql_core_1.char)('ip_hash', { length: 64 }),
+    metadataJson: (0, mysql_core_1.text)('metadata_json'),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_analytics_clicks_link_time').on(t.linkId, t.clickedAt),
+    (0, mysql_core_1.index)('idx_analytics_clicks_platform_time').on(t.platform, t.clickedAt),
+]);
+exports.mediaAccessTokens = (0, mysql_core_1.mysqlTable)('media_access_tokens', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    mediaId: (0, mysql_core_1.char)('media_id', { length: 26 }).notNull(),
+    tokenHash: (0, mysql_core_1.char)('token_hash', { length: 64 }).notNull(),
+    expiresAt: (0, mysql_core_1.datetime)('expires_at').notNull(),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.unique)('uq_mat_token').on(t.tokenHash)]);
+exports.auditLogs = (0, mysql_core_1.mysqlTable)('audit_logs', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    actorId: (0, mysql_core_1.char)('actor_id', { length: 26 }),
+    actorRole: (0, mysql_core_1.varchar)('actor_role', { length: 40 }),
+    action: (0, mysql_core_1.varchar)('action', { length: 80 }).notNull(),
+    subjectType: (0, mysql_core_1.varchar)('subject_type', { length: 60 }),
+    subjectId: (0, mysql_core_1.char)('subject_id', { length: 26 }),
+    ip: (0, mysql_core_1.varchar)('ip', { length: 64 }),
+    metaJson: (0, mysql_core_1.json)('meta_json').$type(),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.index)('idx_audit_actor').on(t.actorId, t.createdAt)]);
+exports.tickets = (0, mysql_core_1.mysqlTable)('tickets', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    subject: (0, mysql_core_1.varchar)('subject', { length: 190 }).notNull(),
+    category: (0, mysql_core_1.varchar)('category', { length: 80 }).notNull().default('GENERAL'),
+    state: (0, mysql_core_1.mysqlEnum)('state', ['OPEN', 'ANSWERED', 'CLOSED']).notNull().default('OPEN'),
+    createdAt: ts(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_tickets_tenant').on(t.tenantId, t.state)]);
+exports.ticketMessages = (0, mysql_core_1.mysqlTable)('ticket_messages', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    ticketId: (0, mysql_core_1.char)('ticket_id', { length: 26 }).notNull(),
+    authorId: (0, mysql_core_1.char)('author_id', { length: 26 }),
+    authorRole: (0, mysql_core_1.mysqlEnum)('author_role', ['USER', 'SUPPORT', 'SUPER_ADMIN', 'SYSTEM']).notNull().default('USER'),
+    body: (0, mysql_core_1.text)('body').notNull(),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.index)('idx_tmsg_ticket').on(t.ticketId, t.createdAt)]);
+/** One attachment per ticket message (0003, uq_tatt_message). */
+exports.ticketMessageAttachments = (0, mysql_core_1.mysqlTable)('ticket_message_attachments', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    messageId: (0, mysql_core_1.char)('message_id', { length: 26 }).notNull(),
+    mediaId: (0, mysql_core_1.char)('media_id', { length: 26 }).notNull(),
+    fileName: (0, mysql_core_1.varchar)('file_name', { length: 255 }).notNull(),
+    sizeBytes: (0, mysql_core_1.bigint)('size_bytes', { mode: 'number' }).notNull(),
+    mime: (0, mysql_core_1.varchar)('mime', { length: 120 }).notNull(),
+    createdAt: ts(),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_tatt_message').on(t.messageId),
+    (0, mysql_core_1.index)('idx_tatt_media').on(t.mediaId),
+]);
+exports.systemSettings = (0, mysql_core_1.mysqlTable)('system_settings', {
+    settingKey: (0, mysql_core_1.varchar)('setting_key', { length: 80 }).primaryKey(),
+    valueJson: (0, mysql_core_1.json)('value_json').$type().notNull(),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+});
+exports.linkClicks = (0, mysql_core_1.mysqlTable)('link_clicks', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    tenantId: (0, mysql_core_1.char)('tenant_id', { length: 26 }).notNull(),
+    postTargetId: (0, mysql_core_1.char)('post_target_id', { length: 26 }),
+    linkKey: (0, mysql_core_1.varchar)('link_key', { length: 80 }).notNull(),
+    visitorHash: (0, mysql_core_1.char)('visitor_hash', { length: 64 }).notNull(),
+    referer: (0, mysql_core_1.varchar)('referer', { length: 255 }),
+    createdAt: ts(),
+}, (t) => [(0, mysql_core_1.index)('idx_clicks_tenant').on(t.tenantId, t.createdAt)]);
+// Public survey workflow. Existing Postyar tables and publishing schema are unchanged.
+exports.surveys = (0, mysql_core_1.mysqlTable)('surveys', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    creatorId: (0, mysql_core_1.char)('creator_id', { length: 26 }).notNull(),
+    question: (0, mysql_core_1.varchar)('question', { length: 200 }).notNull(),
+    description: (0, mysql_core_1.varchar)('description', { length: 500 }),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['PENDING', 'APPROVED', 'REJECTED', 'CLOSED']).notNull().default('PENDING'),
+    isFeatured: (0, mysql_core_1.tinyint)('is_featured').notNull().default(0),
+    reviewedBy: (0, mysql_core_1.char)('reviewed_by', { length: 26 }),
+    reviewedAt: (0, mysql_core_1.datetime)('reviewed_at'),
+    reviewNote: (0, mysql_core_1.varchar)('review_note', { length: 500 }),
+    createdAt: (0, mysql_core_1.datetime)('created_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_surveys_creator_status').on(t.creatorId, t.status, t.createdAt),
+    (0, mysql_core_1.index)('idx_surveys_public_featured').on(t.status, t.isFeatured, t.createdAt),
+]);
+exports.surveyOptions = (0, mysql_core_1.mysqlTable)('survey_options', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    surveyId: (0, mysql_core_1.char)('survey_id', { length: 26 }).notNull(),
+    label: (0, mysql_core_1.varchar)('label', { length: 100 }).notNull(),
+    sortOrder: (0, mysql_core_1.int)('sort_order').notNull().default(0),
+    createdAt: (0, mysql_core_1.datetime)('created_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_survey_options_survey').on(t.surveyId, t.sortOrder)]);
+exports.surveyVotes = (0, mysql_core_1.mysqlTable)('survey_votes', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    surveyId: (0, mysql_core_1.char)('survey_id', { length: 26 }).notNull(),
+    optionId: (0, mysql_core_1.char)('option_id', { length: 26 }).notNull(),
+    voterHash: (0, mysql_core_1.char)('voter_hash', { length: 64 }).notNull(),
+    createdAt: (0, mysql_core_1.datetime)('created_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.unique)('uq_survey_votes_voter').on(t.surveyId, t.voterHash),
+    (0, mysql_core_1.index)('idx_survey_votes_option').on(t.surveyId, t.optionId),
+]);
+exports.surveyEvents = (0, mysql_core_1.mysqlTable)('survey_events', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    surveyId: (0, mysql_core_1.char)('survey_id', { length: 26 }).notNull(),
+    actorId: (0, mysql_core_1.char)('actor_id', { length: 26 }),
+    action: (0, mysql_core_1.mysqlEnum)('action', ['SUBMITTED', 'APPROVED', 'REJECTED', 'CLOSED']).notNull(),
+    note: (0, mysql_core_1.varchar)('note', { length: 500 }),
+    createdAt: (0, mysql_core_1.datetime)('created_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+}, (t) => [(0, mysql_core_1.index)('idx_survey_events_survey').on(t.surveyId, t.createdAt)]);
+// Authenticated user feedback. Public visibility requires both moderator approval and explicit user consent.
+exports.userFeedback = (0, mysql_core_1.mysqlTable)('user_feedback', {
+    id: (0, mysql_core_1.char)('id', { length: 26 }).primaryKey(),
+    userId: (0, mysql_core_1.char)('user_id', { length: 26 }).notNull(),
+    displayName: (0, mysql_core_1.varchar)('display_name', { length: 80 }).notNull(),
+    message: (0, mysql_core_1.text)('message').notNull(),
+    showOnHomepage: (0, mysql_core_1.tinyint)('show_on_homepage').notNull().default(0),
+    status: (0, mysql_core_1.mysqlEnum)('status', ['PENDING', 'APPROVED', 'REJECTED', 'CLOSED']).notNull().default('PENDING'),
+    reviewedBy: (0, mysql_core_1.char)('reviewed_by', { length: 26 }),
+    reviewedAt: (0, mysql_core_1.datetime)('reviewed_at'),
+    reviewNote: (0, mysql_core_1.varchar)('review_note', { length: 500 }),
+    createdAt: (0, mysql_core_1.datetime)('created_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP`),
+    updatedAt: (0, mysql_core_1.datetime)('updated_at').notNull().default((0, drizzle_orm_1.sql) `CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+}, (t) => [
+    (0, mysql_core_1.index)('idx_user_feedback_user_created').on(t.userId, t.createdAt),
+    (0, mysql_core_1.index)('idx_user_feedback_status_created').on(t.status, t.createdAt),
+    (0, mysql_core_1.index)('idx_user_feedback_public').on(t.status, t.showOnHomepage, t.updatedAt),
+]);

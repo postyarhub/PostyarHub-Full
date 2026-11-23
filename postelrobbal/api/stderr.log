@@ -1,0 +1,899 @@
+(node:3492225) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3506346) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3558002) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3558029) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3562590) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3562865) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3576411) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3584050) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:355372) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:355466) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:396437) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:396474) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:397026) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+node:internal/modules/cjs/loader:1433
+  throw err;
+  ^
+
+Error: Cannot find module 'fastify'
+Require stack:
+- /home/postyarh/postelrobbal/app/dist/app/buildApp.js
+- /home/postyarh/postelrobbal/app/dist/server.js
+- /home/postyarh/postelrobbal/api/app.js
+- /usr/local/lsws/fcgi-bin/lsnode.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1430:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1040:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1045:22)
+    at Module._load (node:internal/modules/cjs/loader:1216:25)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:254:19)
+    at Module.require (node:internal/modules/cjs/loader:1527:12)
+    at require (node:internal/modules/helpers:147:16)
+    at Object.<anonymous> (/home/postyarh/postelrobbal/app/dist/app/buildApp.js:7:35)
+    at Module._compile (node:internal/modules/cjs/loader:1781:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1913:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/postyarh/postelrobbal/app/dist/app/buildApp.js',
+    '/home/postyarh/postelrobbal/app/dist/server.js',
+    '/home/postyarh/postelrobbal/api/app.js',
+    '/usr/local/lsws/fcgi-bin/lsnode.js'
+  ]
+}
+
+Node.js v22.23.2
+(node:482282) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:491392) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:555870) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:618077) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:737868) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:738907) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:759059) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1324370) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1391535) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1586027) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1597678) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1613742) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2265786) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2381307) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2907011) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:441603) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:2800641) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:527091) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:529814) [FSTDEP023] FastifyDeprecation: disableRequestLogging option is deprecated. Use the logController option with disableRequestLogging or isLogDisabled override instead. The disableRequestLogging top-level option will be removed in `fastify@6`.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+[api] fatal: Method 'GET' already declared for route '/api/v1/settings/payments'
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Debugger listening on ws://127.0.0.1:9229/5584ac66-f3ca-4250-9f34-c4c03966d6b0
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+For help, see: https://nodejs.org/learn/getting-started/debugging
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use
+Starting inspector on 127.0.0.1:9229 failed: address already in use

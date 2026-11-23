@@ -1,0 +1,1 @@
+import{j as a}from"./vendor-query-CIGCRst9.js";import{a as t}from"./vendor-react-B6s9VDz3.js";import{n as s}from"./index-CZbmKkGU.js";function e(){return t.useEffect(()=>{s()},[]),a.jsx("section",{"data-postyar-campaigns-host":"1","aria-label":"کمپین‌ها",style:{display:"grid",gap:14,minWidth:0}})}export{e as default};

@@ -1,0 +1,10 @@
+POSTYAR — BATCH 6 POST-DEPLOY VERIFICATION
+Timestamp: 2026-10-06T19:54:09+03:30
+Expected release SHA: 1ec6a7c5153b859d46d051a53050c714a73697738175267877f6e6900547353e
+
+[ OK ] Deployment marker matches exact Batch 6 SHA
+[ OK ] Runtime files and launchers present
+[ OK ] Exactly one postyar-worker is running: 124397
+[ OK ] Exactly one worker and one scheduler cron entry
+[ OK ] Passenger live/ready health = 200
+[FAIL] Worker log contains Permission denied

@@ -1,0 +1,384 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.registerSurveyRoutes = registerSurveyRoutes;
+const node_crypto_1 = require("node:crypto");
+const ulid_1 = require("ulid");
+const drizzle_orm_1 = require("drizzle-orm");
+const zod_1 = require("zod");
+const client_js_1 = require("../../db/client.js");
+const schema_js_1 = require("../../db/schema.js");
+const delivery_js_1 = require("../notifications/delivery.js");
+const idSchema = zod_1.z.string().regex(/^[0-9A-HJKMNP-TV-Z]{26}$/i, 'شناسه نظرسنجی معتبر نیست.');
+const createSchema = zod_1.z.object({
+    question: zod_1.z.string().trim().min(8).max(200),
+    description: zod_1.z.string().trim().max(500).optional().default(''),
+    options: zod_1.z.array(zod_1.z.string().trim().min(1).max(100)).min(2).max(8),
+}).superRefine((value, context) => {
+    const normalized = value.options.map((item) => item.toLocaleLowerCase('fa-IR'));
+    if (new Set(normalized).size !== normalized.length) {
+        context.addIssue({ code: zod_1.z.ZodIssueCode.custom, path: ['options'], message: 'گزینه‌های تکراری مجاز نیستند.' });
+    }
+});
+const voteSchema = zod_1.z.object({ optionId: idSchema });
+const reviewSchema = zod_1.z.object({ note: zod_1.z.string().trim().max(500).optional().default('') });
+function newId() {
+    return (0, ulid_1.ulid)();
+}
+function sendError(reply, statusCode, code, message) {
+    return reply.code(statusCode).send({ success: false, error: { code, message } });
+}
+function visitorToken(req, reply) {
+    let token = req.cookies?.py_survey_v1;
+    if (!token || !/^[A-Za-z0-9_-]{40,60}$/.test(token)) {
+        token = (0, node_crypto_1.randomBytes)(32).toString('base64url');
+        reply.setCookie('py_survey_v1', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 365,
+        });
+    }
+    return token;
+}
+function visitorHash(req, reply) {
+    return (0, node_crypto_1.createHash)('sha256').update(visitorToken(req, reply)).digest('hex');
+}
+function isSuperAdmin(req) {
+    return req.user?.role === 'SUPER_ADMIN';
+}
+async function withOptions(rows) {
+    if (!rows.length)
+        return [];
+    const ids = rows.map((row) => row.id);
+    const options = await (0, client_js_1.getDb)().select().from(schema_js_1.surveyOptions)
+        .where((0, drizzle_orm_1.inArray)(schema_js_1.surveyOptions.surveyId, ids))
+        .orderBy((0, drizzle_orm_1.asc)(schema_js_1.surveyOptions.sortOrder), (0, drizzle_orm_1.asc)(schema_js_1.surveyOptions.createdAt));
+    const grouped = new Map();
+    for (const option of options) {
+        const bucket = grouped.get(option.surveyId) ?? [];
+        bucket.push(option);
+        grouped.set(option.surveyId, bucket);
+    }
+    return rows.map((row) => ({ ...row, options: grouped.get(row.id) ?? [] }));
+}
+async function featuredSurvey(voter) {
+    const rows = await (0, client_js_1.getDb)().select().from(schema_js_1.surveys)
+        .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveys.status, 'APPROVED'), (0, drizzle_orm_1.eq)(schema_js_1.surveys.isFeatured, 1)))
+        .orderBy((0, drizzle_orm_1.desc)(schema_js_1.surveys.createdAt)).limit(1);
+    const survey = rows[0];
+    if (!survey)
+        return null;
+    const options = await (0, client_js_1.getDb)().select({
+        id: schema_js_1.surveyOptions.id,
+        label: schema_js_1.surveyOptions.label,
+        sortOrder: schema_js_1.surveyOptions.sortOrder,
+        voteCount: (0, drizzle_orm_1.count)(schema_js_1.surveyVotes.id),
+    }).from(schema_js_1.surveyOptions)
+        .leftJoin(schema_js_1.surveyVotes, (0, drizzle_orm_1.eq)(schema_js_1.surveyVotes.optionId, schema_js_1.surveyOptions.id))
+        .where((0, drizzle_orm_1.eq)(schema_js_1.surveyOptions.surveyId, survey.id))
+        .groupBy(schema_js_1.surveyOptions.id, schema_js_1.surveyOptions.label, schema_js_1.surveyOptions.sortOrder)
+        .orderBy((0, drizzle_orm_1.asc)(schema_js_1.surveyOptions.sortOrder));
+    const normalizedOptions = options.map((item) => ({
+        id: item.id,
+        label: item.label,
+        sortOrder: item.sortOrder,
+        voteCount: Number(item.voteCount ?? 0),
+    }));
+    const totalVotes = normalizedOptions.reduce((total, item) => total + item.voteCount, 0);
+    let hasVoted = false;
+    if (voter) {
+        const prior = await (0, client_js_1.getDb)().select({ id: schema_js_1.surveyVotes.id }).from(schema_js_1.surveyVotes)
+            .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveyVotes.surveyId, survey.id), (0, drizzle_orm_1.eq)(schema_js_1.surveyVotes.voterHash, voter))).limit(1);
+        hasVoted = prior.length > 0;
+    }
+    return {
+        id: survey.id,
+        question: survey.question,
+        description: survey.description,
+        createdAt: survey.createdAt,
+        options: normalizedOptions,
+        totalVotes,
+        hasVoted,
+    };
+}
+async function withVoteStats(rows) {
+    const items = await withOptions(rows);
+    if (!rows.length)
+        return [];
+    const ids = rows.map((row) => row.id);
+    const grouped = await (0, client_js_1.getDb)().select({ optionId: schema_js_1.surveyVotes.optionId, votes: (0, drizzle_orm_1.count)() }).from(schema_js_1.surveyVotes)
+        .where((0, drizzle_orm_1.inArray)(schema_js_1.surveyVotes.surveyId, ids)).groupBy(schema_js_1.surveyVotes.optionId);
+    const counts = new Map(grouped.map((row) => [row.optionId, Number(row.votes ?? 0)]));
+    return items.map((item) => {
+        const options = item.options.map((option) => ({ ...option, voteCount: counts.get(option.id) ?? 0 }));
+        const totalVotes = options.reduce((sum, option) => sum + option.voteCount, 0);
+        return { ...item, totalVotes, options: options.map((option) => ({ ...option, percentage: totalVotes ? Math.round(option.voteCount * 100 / totalVotes) : 0 })) };
+    });
+}
+async function appendEvent(tx, surveyId, actorId, action, note = null) {
+    await tx.insert(schema_js_1.surveyEvents).values({ id: newId(), surveyId, actorId, action, note });
+}
+async function registerSurveyRoutes(app) {
+    // Public, read-only featured survey. The HttpOnly cookie is an opaque browser key; only its SHA-256 hash is stored with a vote.
+    app.get('/surveys/featured', { config: { rateLimit: { max: 60, timeWindow: '1 minute' } } }, async (req, reply) => {
+        const hash = visitorHash(req, reply);
+        const survey = await featuredSurvey(hash);
+        reply.header('Cache-Control', 'no-store, private');
+        return { success: true, data: { survey } };
+    });
+    // Public, one vote per browser cookie and survey. Fastify's shared IP rate limiter adds a second, independent ceiling.
+    app.post('/surveys/:id/vote', {
+        config: { rateLimit: { max: 12, timeWindow: '15 minutes' } },
+    }, async (req, reply) => {
+        const parsedId = idSchema.safeParse(req.params.id);
+        const body = voteSchema.safeParse(req.body);
+        if (!parsedId.success || !body.success)
+            return sendError(reply, 400, 'VALIDATION_ERROR', 'اطلاعات رأی معتبر نیست.');
+        const rawToken = req.cookies?.py_survey_v1;
+        if (!rawToken || !/^[A-Za-z0-9_-]{40,60}$/.test(rawToken)) {
+            return sendError(reply, 400, 'SURVEY_VISITOR_REQUIRED', 'صفحه را تازه‌سازی کنید و دوباره رأی دهید.');
+        }
+        const id = parsedId.data;
+        const hash = (0, node_crypto_1.createHash)('sha256').update(rawToken).digest('hex');
+        const db = (0, client_js_1.getDb)();
+        const current = await db.select({ id: schema_js_1.surveys.id }).from(schema_js_1.surveys)
+            .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id), (0, drizzle_orm_1.eq)(schema_js_1.surveys.status, 'APPROVED'), (0, drizzle_orm_1.eq)(schema_js_1.surveys.isFeatured, 1))).limit(1);
+        if (!current.length)
+            return sendError(reply, 404, 'SURVEY_NOT_FOUND', 'این نظرسنجی دیگر فعال نیست.');
+        const option = await db.select({ id: schema_js_1.surveyOptions.id }).from(schema_js_1.surveyOptions)
+            .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveyOptions.id, body.data.optionId), (0, drizzle_orm_1.eq)(schema_js_1.surveyOptions.surveyId, id))).limit(1);
+        if (!option.length)
+            return sendError(reply, 400, 'SURVEY_OPTION_INVALID', 'گزینه انتخاب‌شده معتبر نیست.');
+        const prior = await db.select({ id: schema_js_1.surveyVotes.id }).from(schema_js_1.surveyVotes)
+            .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveyVotes.surveyId, id), (0, drizzle_orm_1.eq)(schema_js_1.surveyVotes.voterHash, hash))).limit(1);
+        if (prior.length)
+            return sendError(reply, 409, 'SURVEY_ALREADY_VOTED', 'برای این نظرسنجی قبلاً رأی ثبت شده است.');
+        try {
+            await db.insert(schema_js_1.surveyVotes).values({ id: newId(), surveyId: id, optionId: body.data.optionId, voterHash: hash });
+        }
+        catch (error) {
+            const candidate = error;
+            if (candidate.code === 'ER_DUP_ENTRY' || candidate.errno === 1062) {
+                return sendError(reply, 409, 'SURVEY_ALREADY_VOTED', 'برای این نظرسنجی قبلاً رأی ثبت شده است.');
+            }
+            throw error;
+        }
+        return { success: true, data: { survey: await featuredSurvey(hash) } };
+    });
+    // Signed-in users can submit a survey proposal; publication is impossible until a SUPER_ADMIN approves it.
+    app.get('/surveys/mine', { preHandler: [app.requireAuth] }, async (req, reply) => {
+        if (!req.user)
+            return sendError(reply, 401, 'AUTH_REQUIRED', 'برای مشاهدهٔ نظرسنجی‌ها وارد حساب شوید.');
+        const rows = await (0, client_js_1.getDb)().select().from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.creatorId, req.user.id))
+            .orderBy((0, drizzle_orm_1.desc)(schema_js_1.surveys.createdAt)).limit(50);
+        return { success: true, data: { items: await withOptions(rows) } };
+    });
+    app.post('/surveys', { preHandler: [app.requireAuth], config: { rateLimit: { max: 5, timeWindow: '1 hour' } } }, async (req, reply) => {
+        if (!req.user)
+            return sendError(reply, 401, 'AUTH_REQUIRED', 'برای ثبت نظرسنجی وارد حساب شوید.');
+        if (!isSuperAdmin(req))
+            return sendError(reply, 403, 'FORBIDDEN', 'ساخت نظرسنجی فقط برای مدیر ارشد مجاز است.');
+        const parsed = createSchema.safeParse(req.body);
+        if (!parsed.success)
+            return sendError(reply, 400, 'VALIDATION_ERROR', 'سؤال باید حداقل ۸ نویسه و تعداد گزینه‌ها بین ۲ تا ۸ باشد؛ متن گزینه‌ها نیز باید یکتا باشد.');
+        const db = (0, client_js_1.getDb)();
+        const id = newId();
+        const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
+        const outcome = await db.transaction(async (tx) => {
+            // Serialize quota-sensitive submissions per user. Counting before the
+            // transaction allowed parallel requests to exceed both moderation and
+            // daily limits while every request saw the same old counts.
+            await tx.select({ id: schema_js_1.users.id }).from(schema_js_1.users).where((0, drizzle_orm_1.eq)(schema_js_1.users.id, req.user.id)).limit(1).for('update');
+            const pendingCount = await tx.select({ total: (0, drizzle_orm_1.count)() }).from(schema_js_1.surveys)
+                .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveys.creatorId, req.user.id), (0, drizzle_orm_1.eq)(schema_js_1.surveys.status, 'PENDING')));
+            if (Number(pendingCount[0]?.total ?? 0) >= 5)
+                return { error: 'pending' };
+            const recent = await tx.select({ total: (0, drizzle_orm_1.count)() }).from(schema_js_1.surveys)
+                .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveys.creatorId, req.user.id), (0, drizzle_orm_1.gte)(schema_js_1.surveys.createdAt, cutoff)));
+            if (Number(recent[0]?.total ?? 0) >= 3)
+                return { error: 'daily' };
+            await tx.insert(schema_js_1.surveys).values({
+                id,
+                creatorId: req.user.id,
+                question: parsed.data.question,
+                description: parsed.data.description || null,
+                status: 'PENDING',
+                isFeatured: 0,
+            });
+            for (const [index, label] of parsed.data.options.entries()) {
+                await tx.insert(schema_js_1.surveyOptions).values({ id: newId(), surveyId: id, label, sortOrder: index });
+            }
+            await appendEvent(tx, id, req.user.id, 'SUBMITTED');
+            return { id };
+        });
+        if ('error' in outcome) {
+            if (outcome.error === 'pending') {
+                return sendError(reply, 429, 'SURVEY_PENDING_LIMIT', 'حداکثر ۵ نظرسنجی در انتظار بررسی مجاز است.');
+            }
+            return sendError(reply, 429, 'SURVEY_DAILY_LIMIT', 'حداکثر ۳ نظرسنجی در هر ۲۴ ساعت مجاز است.');
+        }
+        const created = await db.select().from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, outcome.id)).limit(1);
+        return { success: true, data: { survey: (await withOptions(created))[0] } };
+    });
+    // These routes require the actual top-level administrator role, not merely an authenticated session.
+    app.get('/surveys/admin', { preHandler: [app.requireAuth] }, async (req, reply) => {
+        if (!isSuperAdmin(req))
+            return sendError(reply, 403, 'FORBIDDEN', 'دسترسی مدیر ارشد لازم است.');
+        const rows = await (0, client_js_1.getDb)().select().from(schema_js_1.surveys).orderBy((0, drizzle_orm_1.desc)(schema_js_1.surveys.createdAt)).limit(100);
+        return { success: true, data: { items: await withVoteStats(rows) } };
+    });
+    app.post('/surveys/admin/:id/approve', { preHandler: [app.requireAuth] }, async (req, reply) => {
+        if (!isSuperAdmin(req) || !req.user)
+            return sendError(reply, 403, 'FORBIDDEN', 'دسترسی مدیر ارشد لازم است.');
+        const parsedId = idSchema.safeParse(req.params.id);
+        if (!parsedId.success)
+            return sendError(reply, 400, 'VALIDATION_ERROR', 'شناسه نظرسنجی معتبر نیست.');
+        const id = parsedId.data;
+        const db = (0, client_js_1.getDb)();
+        const current = await db.select({
+            id: schema_js_1.surveys.id,
+            status: schema_js_1.surveys.status,
+            creatorId: schema_js_1.surveys.creatorId,
+            question: schema_js_1.surveys.question,
+        }).from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id)).limit(1);
+        const currentSurvey = current[0];
+        if (!currentSurvey)
+            return sendError(reply, 404, 'SURVEY_NOT_FOUND', 'نظرسنجی پیدا نشد.');
+        if (currentSurvey.status === 'CLOSED')
+            return sendError(reply, 409, 'SURVEY_CLOSED', 'نظرسنجی بسته‌شده دوباره منتشر نمی‌شود.');
+        if (currentSurvey.status === 'REJECTED')
+            return sendError(reply, 409, 'SURVEY_ALREADY_REJECTED', 'نظرسنجی ردشده مستقیماً قابل تأیید نیست.');
+        if (currentSurvey.status === 'PENDING') {
+            await db.transaction(async (tx) => {
+                // Serialize all approvals before locking the target survey. Locking
+                // only the target row is insufficient because two different pending
+                // surveys could otherwise both pass a concurrent isFeatured reset.
+                await tx.select({ id: schema_js_1.users.id })
+                    .from(schema_js_1.users)
+                    .where((0, drizzle_orm_1.eq)(schema_js_1.users.role, 'SUPER_ADMIN'))
+                    .orderBy((0, drizzle_orm_1.asc)(schema_js_1.users.id))
+                    .for('update');
+                // Lock the selected row and verify its state before changing the
+                // featured survey, preventing concurrent approve/reject races.
+                const locked = await tx.select({ id: schema_js_1.surveys.id, status: schema_js_1.surveys.status })
+                    .from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id)).limit(1).for('update');
+                if (!locked[0] || locked[0].status !== 'PENDING') {
+                    throw new Error('SURVEY_REVIEW_STATE_CHANGED');
+                }
+                await tx.update(schema_js_1.surveys).set({ isFeatured: 0 }).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.isFeatured, 1));
+                await tx.update(schema_js_1.surveys).set({ status: 'APPROVED', isFeatured: 1, reviewedBy: req.user.id, reviewedAt: new Date(), reviewNote: null })
+                    .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id), (0, drizzle_orm_1.eq)(schema_js_1.surveys.status, 'PENDING')));
+                await appendEvent(tx, id, req.user.id, 'APPROVED');
+            });
+        }
+        // Retry the idempotent insert even if the survey was approved earlier:
+        // a transient notification DB failure must not permanently lose the notice.
+        if (currentSurvey.creatorId !== req.user.id) {
+            await (0, delivery_js_1.notifyTenant)({
+                tenantId: currentSurvey.creatorId,
+                kind: 'SURVEY_APPROVED',
+                subjectId: id,
+                titleFa: 'نظرسنجی شما تأیید شد',
+                bodyFa: `نظرسنجی «${currentSurvey.question}» تأیید شد و در بخش نظرسنجی برجستهٔ پُست‌یار نمایش داده می‌شود.`,
+            }).catch((error) => {
+                req.log.warn({ surveyId: id, errorName: error instanceof Error ? error.name : 'Error' }, 'survey_approval_notification_failed');
+            });
+        }
+        return { success: true, data: { approved: true, featuredSurveyId: id } };
+    });
+    app.post('/surveys/admin/:id/reject', { preHandler: [app.requireAuth] }, async (req, reply) => {
+        if (!isSuperAdmin(req) || !req.user)
+            return sendError(reply, 403, 'FORBIDDEN', 'دسترسی مدیر ارشد لازم است.');
+        const parsedId = idSchema.safeParse(req.params.id);
+        const body = reviewSchema.safeParse(req.body ?? {});
+        if (!parsedId.success || !body.success)
+            return sendError(reply, 400, 'VALIDATION_ERROR', 'اطلاعات رد نظرسنجی معتبر نیست.');
+        const id = parsedId.data;
+        const current = await (0, client_js_1.getDb)().select({
+            id: schema_js_1.surveys.id,
+            status: schema_js_1.surveys.status,
+            creatorId: schema_js_1.surveys.creatorId,
+            question: schema_js_1.surveys.question,
+            reviewNote: schema_js_1.surveys.reviewNote,
+        }).from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id)).limit(1);
+        const currentSurvey = current[0];
+        if (!currentSurvey)
+            return sendError(reply, 404, 'SURVEY_NOT_FOUND', 'نظرسنجی پیدا نشد.');
+        if (currentSurvey.status === 'CLOSED')
+            return sendError(reply, 409, 'SURVEY_CLOSED', 'نظرسنجی بسته‌شده قابل رد نیست.');
+        if (currentSurvey.status === 'APPROVED')
+            return sendError(reply, 409, 'SURVEY_ALREADY_APPROVED', 'نظرسنجی تأییدشده را نمی‌توان رد کرد؛ ابتدا وضعیت نمایش آن را مدیریت کنید.');
+        if (currentSurvey.status === 'PENDING') {
+            await (0, client_js_1.getDb)().transaction(async (tx) => {
+                const locked = await tx.select({ id: schema_js_1.surveys.id, status: schema_js_1.surveys.status })
+                    .from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id)).limit(1).for('update');
+                if (!locked[0] || locked[0].status !== 'PENDING') {
+                    throw new Error('SURVEY_REVIEW_STATE_CHANGED');
+                }
+                await tx.update(schema_js_1.surveys).set({ status: 'REJECTED', isFeatured: 0, reviewedBy: req.user.id, reviewedAt: new Date(), reviewNote: body.data.note || null })
+                    .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id), (0, drizzle_orm_1.eq)(schema_js_1.surveys.status, 'PENDING')));
+                await appendEvent(tx, id, req.user.id, 'REJECTED', body.data.note || null);
+            });
+        }
+        // If the first insert failed transiently, a repeated rejection request can
+        // still complete the notification. The unique notification key prevents
+        // sending the same result more than once.
+        const note = body.data.note?.trim() || currentSurvey.reviewNote?.trim() || '';
+        if (currentSurvey.creatorId !== req.user.id) {
+            await (0, delivery_js_1.notifyTenant)({
+                tenantId: currentSurvey.creatorId,
+                kind: 'SURVEY_REJECTED',
+                subjectId: id,
+                titleFa: 'نظرسنجی شما رد شد',
+                bodyFa: note
+                    ? `نظرسنجی «${currentSurvey.question}» تأیید نشد. دلیل ثبت‌شده: ${note}`
+                    : `نظرسنجی «${currentSurvey.question}» تأیید نشد و در صفحهٔ اصلی نمایش داده نمی‌شود.`,
+            }).catch((error) => {
+                req.log.warn({ surveyId: id, errorName: error instanceof Error ? error.name : 'Error' }, 'survey_rejection_notification_failed');
+            });
+        }
+        return { success: true, data: { rejected: true } };
+    });
+    app.post('/surveys/admin/:id/close', { preHandler: [app.requireAuth] }, async (req, reply) => {
+        if (!isSuperAdmin(req) || !req.user)
+            return sendError(reply, 403, 'FORBIDDEN', 'دسترسی مدیر ارشد لازم است.');
+        const parsedId = idSchema.safeParse(req.params.id);
+        if (!parsedId.success)
+            return sendError(reply, 400, 'VALIDATION_ERROR', 'شناسه نظرسنجی معتبر نیست.');
+        const id = parsedId.data;
+        const current = await (0, client_js_1.getDb)().select({
+            id: schema_js_1.surveys.id,
+            status: schema_js_1.surveys.status,
+            creatorId: schema_js_1.surveys.creatorId,
+            question: schema_js_1.surveys.question,
+        }).from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id)).limit(1);
+        const currentSurvey = current[0];
+        if (!currentSurvey)
+            return sendError(reply, 404, 'SURVEY_NOT_FOUND', 'نظرسنجی پیدا نشد.');
+        if (currentSurvey.status !== 'APPROVED' && currentSurvey.status !== 'CLOSED')
+            return sendError(reply, 409, 'SURVEY_NOT_APPROVED', 'فقط نظرسنجی تأییدشده قابل توقف است.');
+        if (currentSurvey.status === 'APPROVED') {
+            await (0, client_js_1.getDb)().transaction(async (tx) => {
+                const locked = await tx.select({ id: schema_js_1.surveys.id, status: schema_js_1.surveys.status })
+                    .from(schema_js_1.surveys).where((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id)).limit(1).for('update');
+                if (!locked[0] || locked[0].status !== 'APPROVED') {
+                    throw new Error('SURVEY_REVIEW_STATE_CHANGED');
+                }
+                await tx.update(schema_js_1.surveys).set({ status: 'CLOSED', isFeatured: 0, reviewedBy: req.user.id, reviewedAt: new Date() })
+                    .where((0, drizzle_orm_1.and)((0, drizzle_orm_1.eq)(schema_js_1.surveys.id, id), (0, drizzle_orm_1.eq)(schema_js_1.surveys.status, 'APPROVED')));
+                await appendEvent(tx, id, req.user.id, 'CLOSED');
+            });
+        }
+        await (0, delivery_js_1.notifyTenant)({
+            tenantId: currentSurvey.creatorId,
+            kind: 'SURVEY_CLOSED',
+            subjectId: id,
+            titleFa: 'نمایش نظرسنجی شما متوقف شد',
+            bodyFa: `نمایش نظرسنجی «${currentSurvey.question}» از صفحهٔ اصلی پُست‌یار متوقف شد.`,
+        }).catch((error) => {
+            req.log.warn({ surveyId: id, errorName: error instanceof Error ? error.name : 'Error' }, 'survey_close_notification_failed');
+        });
+        return { success: true, data: { closed: true } };
+    });
+}

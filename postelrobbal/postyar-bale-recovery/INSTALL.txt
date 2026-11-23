@@ -1,0 +1,24 @@
+POSTYAR — Bale adapter compatibility rollback
+
+Files replaced (only):
+  app/src/providers/bale/bale.ts
+  app/dist/providers/bale/bale.js
+
+Behavior restored to the previously working adapter contract:
+  - Non-upload Bot API requests use application/json.
+  - The configured channelRef (including @username) is passed through unchanged.
+  - Existing multipart upload path is retained for in-memory media.
+  - No worker, database, migration, frontend, checkpoint, or environment file is changed.
+
+Install from cPanel Terminal after uploading and extracting this archive into:
+  /home/postyarh/postelrobbal
+
+Run:
+  cd /home/postyarh/postelrobbal
+  bash ./postyar-bale-recovery/scripts/install.sh
+
+Then restart Passenger:
+  touch /home/postyarh/postelrobbal/api/tmp/restart.txt
+
+The installer verifies the exact current file hashes before making timestamped backups.
+If either hash differs, it stops without modifying files. Backups are kept beside each file.

@@ -1,0 +1,52 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.registerApiRoutes = registerApiRoutes;
+const auth_routes_js_1 = require("../modules/auth/auth.routes.js");
+const user_routes_js_1 = require("../modules/users/user.routes.js");
+const channel_routes_js_1 = require("../modules/channels/channel.routes.js");
+const post_routes_js_1 = require("../modules/publishing/post.routes.js");
+const survey_routes_js_1 = require("../modules/surveys/survey.routes.js");
+const feedback_routes_js_1 = require("../modules/feedback/feedback.routes.js");
+const bot_routes_js_1 = require("../modules/bots/bot.routes.js");
+const workflow_routes_js_1 = require("../modules/workflows/workflow.routes.js");
+const ai_routes_js_1 = require("../modules/ai/ai.routes.js");
+const subscription_routes_js_1 = require("../modules/subscriptions/subscription.routes.js");
+const payment_routes_js_1 = require("../modules/payments/payment.routes.js");
+const wallet_routes_js_1 = require("../modules/wallet/wallet.routes.js");
+const referral_routes_js_1 = require("../modules/referrals/referral.routes.js");
+const gold_routes_js_1 = require("../modules/gold/gold.routes.js");
+const analytics_routes_js_1 = require("../modules/analytics/analytics.routes.js");
+const media_routes_js_1 = require("../modules/media/media.routes.js");
+const wordpress_routes_js_1 = require("../modules/wordpress/wordpress.routes.js");
+const notification_routes_js_1 = require("../modules/notifications/notification.routes.js");
+const support_routes_js_1 = require("../modules/support/support.routes.js");
+const admin_routes_js_1 = require("../modules/admin/admin.routes.js");
+const settings_routes_js_1 = require("../modules/settings/settings.routes.js");
+const sticker_routes_js_1 = require("../modules/stickers/sticker.routes.js");
+/** Stable API namespace (§57): /api/v1 */
+async function registerApiRoutes(app) {
+    await app.register(async (v1) => {
+        await (0, auth_routes_js_1.registerAuthRoutes)(v1);
+        await (0, user_routes_js_1.registerUserRoutes)(v1);
+        await (0, channel_routes_js_1.registerChannelRoutes)(v1);
+        await (0, post_routes_js_1.registerPostRoutes)(v1);
+        await (0, survey_routes_js_1.registerSurveyRoutes)(v1);
+        await (0, feedback_routes_js_1.registerFeedbackRoutes)(v1);
+        await (0, bot_routes_js_1.registerBotRoutes)(v1);
+        await (0, workflow_routes_js_1.registerWorkflowRoutes)(v1);
+        await (0, ai_routes_js_1.registerAiRoutes)(v1);
+        await (0, subscription_routes_js_1.registerSubscriptionRoutes)(v1);
+        await (0, payment_routes_js_1.registerPaymentRoutes)(v1);
+        await (0, wallet_routes_js_1.registerWalletRoutes)(v1);
+        await (0, referral_routes_js_1.registerReferralRoutes)(v1);
+        await (0, gold_routes_js_1.registerGoldRoutes)(v1);
+        await (0, analytics_routes_js_1.registerAnalyticsRoutes)(v1);
+        await (0, media_routes_js_1.registerMediaRoutes)(v1);
+        await (0, wordpress_routes_js_1.registerWordpressRoutes)(v1);
+        await (0, notification_routes_js_1.registerNotificationRoutes)(v1);
+        await (0, support_routes_js_1.registerSupportRoutes)(v1);
+        await (0, admin_routes_js_1.registerAdminRoutes)(v1);
+        await (0, settings_routes_js_1.registerSettingsRoutes)(v1);
+        await (0, sticker_routes_js_1.registerStickerRoutes)(v1);
+    }, { prefix: '/api/v1' });
+}

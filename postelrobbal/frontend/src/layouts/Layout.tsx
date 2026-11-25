@@ -180,6 +180,26 @@ export function LandingLayout() {
               <ul className="ln-footer__list"><li><a href="/privacy/">حریم خصوصی</a></li><li><a href="/terms/">قوانین و مقررات</a></li><li><a href="/login/">ورود به حساب</a></li><li><a href="/register/">ساخت حساب</a></li></ul>
             </div>
           </div>
+          {!me && (
+            <div className="ln-footer__trustseal" aria-label="نماد اعتماد الکترونیکی">
+              <a
+                href="https://trustseal.enamad.ir/?id=8262678&Code=TvRGLjcSWIuJlYKlshLimTItaATbwQ5r"
+                target="_blank"
+                rel="noopener noreferrer"
+                referrerPolicy="origin"
+                aria-label="مشاهده نماد اعتماد الکترونیکی پُست‌یار"
+              >
+                <img
+                  src="https://trustseal.enamad.ir/logo.aspx?id=8262678&Code=TvRGLjcSWIuJlYKlshLimTItaATbwQ5r"
+                  alt="نماد اعتماد الکترونیکی"
+                  referrerPolicy="origin"
+                  loading="lazy"
+                  decoding="async"
+                  style={{ display: 'block', width: 'auto', maxWidth: '100%', height: 'auto', maxHeight: 112, objectFit: 'contain', cursor: 'pointer' }}
+                />
+              </a>
+            </div>
+          )}
           <div className="ln-footer__bottom"><span>© پُست‌یار — تمامی حقوق محفوظ است.</span><a href="#top" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }}>بازگشت به بالا <span aria-hidden="true">↑</span></a></div>
         </div>
       </footer>

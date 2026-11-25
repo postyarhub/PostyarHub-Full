@@ -181,7 +181,11 @@ export function LandingLayout() {
             </div>
           </div>
           {!me && (
-            <div className="ln-footer__trustseal" aria-label="نماد اعتماد الکترونیکی">
+            <div
+              className="ln-footer__trustseal"
+              aria-label="نماد اعتماد الکترونیکی"
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '1.5rem auto 0', padding: '0.85rem 1rem', width: 'fit-content', maxWidth: '100%', border: '1px solid rgba(255,255,255,.16)', borderRadius: '1rem', background: 'rgba(255,255,255,.055)', boxSizing: 'border-box' }}
+            >
               <a
                 href="https://trustseal.enamad.ir/?id=8262678&Code=TvRGLjcSWIuJlYKlshLimTItaATbwQ5r"
                 target="_blank"

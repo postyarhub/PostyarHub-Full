@@ -74,7 +74,7 @@ ErrorDocument 404 /404.html
 </IfModule>
 
 <IfModule mod_headers.c>
-  <FilesMatch "^public-site-menu\\.js$">
+  <FilesMatch "^public-site-menu\.js$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
 </IfModule>
